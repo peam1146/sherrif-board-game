@@ -18,9 +18,7 @@ import javafx.scene.text.Font;
 import static javafx.geometry.Pos.CENTER;
 
 public class HomeView extends StackPane {
-    private final static String BG_IMG = HomeView.class.getResource("/com/progmeth/project/sheriff/images/bg.jpeg").toString();
-    private final ImageView bgImage = new ImageView(BG_IMG);
-    private final VBox menu = new VBox();
+    private final static String BG_IMG = HomeView.class.getResource("/com/progmeth/project/sheriff/images/bg.png").toString();
     private final Button startButton = new Button("Start");
 
     private final HomeController controller;
@@ -30,6 +28,7 @@ public class HomeView extends StackPane {
         startButton.setFont(new Font(24));
         super.setAlignment(CENTER);
         super.setBackground(new Background(new BackgroundFill(Color.BROWN, null, null)));
+        VBox menu = new VBox();
         menu.setAlignment(CENTER);
         startButton.setOnMouseClicked(event -> controller.startGame());
         StreamBuilder<HomeState, HomeController> streamBuilder = new StreamBuilder<>(controller) {
@@ -45,6 +44,9 @@ public class HomeView extends StackPane {
         menu.getChildren().add(streamBuilder);
         menu.translateYProperty().set(150);
         startButton.setPadding(new Insets(10, 20, 10, 20));
+        ImageView bgImage = new ImageView(BG_IMG);
+        bgImage.setFitHeight(610);
+        bgImage.setFitWidth(800);
         getChildren().addAll(bgImage, menu);
     }
 }

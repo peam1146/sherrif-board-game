@@ -18,7 +18,6 @@ public abstract class StateWithEventController<E, S> extends StateController<S> 
         eventStream.onNext(event);
     }
 
-
     public PublishSubject<E> getEventStream() {
         return eventStream;
     }
