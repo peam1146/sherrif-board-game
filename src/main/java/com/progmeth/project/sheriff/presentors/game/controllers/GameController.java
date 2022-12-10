@@ -1,7 +1,7 @@
-package com.progmeth.project.sheriff.game.controllers;
+package com.progmeth.project.sheriff.presentors.game.controllers;
 
 import com.progmeth.project.sheriff.core.utils.controllers.StateController;
-import com.progmeth.project.sheriff.game.controllers.states.GameState;
+import com.progmeth.project.sheriff.presentors.game.controllers.states.GameState;
 
 public class GameController extends StateController<GameState> {
     public GameController() {
@@ -9,10 +9,10 @@ public class GameController extends StateController<GameState> {
     }
 
     public void increment() {
-        setState(new GameState(getState().getCount() + 1));
+        setState(new GameState(getState().getCount() + 10));
     }
 
     public void decrement() {
-        setState(new GameState(getState().getCount() - 1));
+        setState(new GameState(getState().getCount() - 10));
     }
 }

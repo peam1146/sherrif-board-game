@@ -1,15 +1,17 @@
-package com.progmeth.project.sheriff.home.views;
+package com.progmeth.project.sheriff.presentors.home.views;
 
-import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
 import com.progmeth.project.sheriff.core.utils.controllers.StreamBuilder;
-import com.progmeth.project.sheriff.home.controllers.HomeController;
-import com.progmeth.project.sheriff.home.controllers.states.HomeState;
-import com.progmeth.project.sheriff.home.controllers.states.Idle;
+import com.progmeth.project.sheriff.presentors.home.controllers.HomeController;
+import com.progmeth.project.sheriff.presentors.home.controllers.states.HomeState;
+import com.progmeth.project.sheriff.presentors.home.controllers.states.Idle;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -29,7 +31,7 @@ public class HomeView extends StackPane {
         super.setAlignment(CENTER);
         super.setBackground(new Background(new BackgroundFill(Color.BROWN, null, null)));
         menu.setAlignment(CENTER);
-        startButton.setOnMouseClicked(event -> controller.mainController.routerController.navigateTo(RouteState.SECOND));
+        startButton.setOnMouseClicked(event -> controller.startGame());
         StreamBuilder<HomeState, HomeController> streamBuilder = new StreamBuilder<>(controller) {
             @Override
             public Node builder(HomeState homeState) {

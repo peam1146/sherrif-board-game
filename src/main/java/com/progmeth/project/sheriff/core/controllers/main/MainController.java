@@ -6,10 +6,12 @@ import com.progmeth.project.sheriff.core.controllers.router.RouterController;
 import com.progmeth.project.sheriff.core.utils.controllers.StateController;
 
 public class MainController extends StateController<MainState> {
-    public final RouterController routerController;
-
+    private final RouterController routerController;
     public MainController(RouterController routerController) {
         super(new InitState());
         this.routerController = routerController;
+    }
+    public RouterController getRouterController() {
+        return routerController;
     }
 }

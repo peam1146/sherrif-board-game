@@ -3,7 +3,7 @@ package com.progmeth.project.sheriff.core.utils.controllers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
-public class StateController<S extends State> {
+public class StateController<S> {
     private final BehaviorSubject<S> stateStream;
     private final Disposable stateSub;
     private S state;

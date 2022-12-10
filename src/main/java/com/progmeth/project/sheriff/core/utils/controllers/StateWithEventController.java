@@ -2,7 +2,7 @@ package com.progmeth.project.sheriff.core.utils.controllers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public abstract class StateWithEventController<E extends Event, S extends State> extends StateController<S> {
+public abstract class StateWithEventController<E, S> extends StateController<S> {
     private final PublishSubject<E> eventStream;
     private final Disposable eventSub;
     public StateWithEventController(S initialState) {

@@ -5,7 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
-public abstract class StreamBuilder<S extends State, T extends StateController<S>> extends StackPane {
+public abstract class StreamBuilder<S, T extends StateController<S>> extends StackPane {
     private final T controller;
     private final Disposable stateSub;
 
@@ -29,7 +29,7 @@ public abstract class StreamBuilder<S extends State, T extends StateController<S
         stateSub.dispose();
     }
 
-    public S getCurrentState() {
+    public S getState() {
         return controller.getState();
     }
 }

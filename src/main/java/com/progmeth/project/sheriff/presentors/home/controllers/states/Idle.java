@@ -1,4 +1,4 @@
-package com.progmeth.project.sheriff.home.controllers.states;
+package com.progmeth.project.sheriff.presentors.home.controllers.states;
 
 public class Idle extends HomeState {
     final int count;
