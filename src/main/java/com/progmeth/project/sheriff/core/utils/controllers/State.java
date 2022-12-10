@@ -1,5 +1,3 @@
-package com.progmeth.project.sheriff.core.interfaces.controllers;
+package com.progmeth.project.sheriff.core.utils.controllers;
 
-public interface State {
-    public boolean equals(State other);
-}
+public interface State { }
