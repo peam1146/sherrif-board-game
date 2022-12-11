@@ -8,6 +8,10 @@ import com.progmeth.project.sheriff.presentors.game.controllers.GameController;
 import com.progmeth.project.sheriff.presentors.game.views.GameView;
 import com.progmeth.project.sheriff.presentors.home.controllers.HomeController;
 import com.progmeth.project.sheriff.presentors.home.views.HomeView;
+import com.progmeth.project.sheriff.presentors.louge.controllers.LougeController;
+import com.progmeth.project.sheriff.presentors.louge.views.LougeView;
+import com.progmeth.project.sheriff.presentors.player.controllers.PlayerController;
+import com.progmeth.project.sheriff.presentors.player.views.PlayerView;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -35,12 +39,22 @@ public class Main extends Application {
 
         final GameController gameController = new GameController();
         final GameView gameView = new GameView(gameController);
+
+        final LougeController lougeController = new LougeController(mainController);
+        final LougeView lougeView = new LougeView(lougeController);
+
+        final PlayerController playerController = new PlayerController(mainController);
+        final PlayerView playerView = new PlayerView(playerController);
+
         final StreamBuilder<RouteState, RouterController> root = new StreamBuilder<>(routerController) {
             @Override
             protected Node builder(RouteState state) {
                 return switch (state) {
                     case HOME -> homeView;
                     case SECOND -> gameView;
+                    case LOUGE -> lougeView;
+                    case GAME_PLAYER -> playerView;
+                    case GAME_SHERIFF -> gameView;
                 };
             }
         };
