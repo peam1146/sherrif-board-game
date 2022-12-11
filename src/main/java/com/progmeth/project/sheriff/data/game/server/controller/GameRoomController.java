@@ -1,9 +1,12 @@
 package com.progmeth.project.sheriff.data.game.server.controller;
 
+import com.progmeth.project.sheriff.data.game.model.base.Item;
 import com.progmeth.project.sheriff.data.game.model.derive.deck.DroppedDeck;
 import com.progmeth.project.sheriff.data.game.model.derive.deck.MainCardDeck;
 import com.progmeth.project.sheriff.data.game.model.derive.hand.Hand;
 import com.progmeth.project.sheriff.data.game.model.derive.market.Market;
+
+import java.util.Random;
 
 public class GameRoomController {
     private final int playerCount;
@@ -40,6 +43,34 @@ public class GameRoomController {
 
     public DroppedDeck getDroppedDeck(DroppedDeckPos pos) {
         return droppedDecks[pos.ordinal()];
+    }
+
+    public Item playDraw(int player) {
+        if (player != getCurrentSheriff()) return null;
+        Item i = deck.draw();
+        hands[player].add(i);
+        return i;
+    }
+
+    public Item playDrawFromDropped(int player, DroppedDeckPos pos) {
+        if (player != getCurrentSheriff()) return null;
+        Item i = droppedDecks[pos.ordinal()].draw();
+        hands[player].add(i);
+        return i;
+    }
+
+    public Item playDrop(int player, Item i) {
+        if (player != getCurrentSheriff()) return null;
+        hands[player].remove(i);
+        final int pos = new Random().nextInt(2);
+        droppedDecks[pos].add(i);
+        return i;
+    }
+
+    public void placeItem(int player, Item i) {
+        if (player != getCurrentSheriff()) return;
+        hands[player].remove(i);
+        markets[player].add(i);
     }
 
 }

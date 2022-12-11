@@ -31,6 +31,14 @@ public class Market {
         }
     }
 
+    public void add(Item item) {
+        if (item instanceof Legal) {
+            addLegalItem(item);
+            return;
+        }
+        addIllegalItem((Illegal) item);
+    }
+
 
     public int getChickenCount() {
         return ChickenCount;
