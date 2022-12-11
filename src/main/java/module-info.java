@@ -1,6 +1,7 @@
 module com.progmeth.project.sheriff {
     requires javafx.controls;
     requires javafx.fxml;
+    requires kryonet;
 
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;

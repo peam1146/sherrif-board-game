@@ -1,4 +1,4 @@
-package com.progmeth.project.sheriff.data.game.model.base;
+package com.progmeth.project.sheriff.data.game.models.base;
 
 public abstract class Item {
 

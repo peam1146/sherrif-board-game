@@ -1,10 +1,10 @@
 package com.progmeth.project.sheriff.data.game.server.controller;
 
-import com.progmeth.project.sheriff.data.game.model.base.Item;
-import com.progmeth.project.sheriff.data.game.model.derive.deck.DroppedDeck;
-import com.progmeth.project.sheriff.data.game.model.derive.deck.MainCardDeck;
-import com.progmeth.project.sheriff.data.game.model.derive.hand.Hand;
-import com.progmeth.project.sheriff.data.game.model.derive.market.Market;
+import com.progmeth.project.sheriff.data.game.models.base.Item;
+import com.progmeth.project.sheriff.data.game.models.derive.deck.DroppedDeck;
+import com.progmeth.project.sheriff.data.game.models.derive.deck.MainCardDeck;
+import com.progmeth.project.sheriff.data.game.models.derive.hand.Hand;
+import com.progmeth.project.sheriff.data.game.models.derive.market.Market;
 
 import java.util.Random;
 
@@ -16,6 +16,9 @@ public class GameRoomController {
     private final Market[] markets;
 
     private int turn = 0;
+
+    private int timer = 0;
+    private final int maxTimer = 60;
 
     public GameRoomController(int playerCount) {
         this.playerCount = playerCount;
@@ -45,21 +48,21 @@ public class GameRoomController {
         return droppedDecks[pos.ordinal()];
     }
 
-    public Item playDraw(int player) {
+    public Item playerDraw(int player) {
         if (player != getCurrentSheriff()) return null;
         Item i = deck.draw();
         hands[player].add(i);
         return i;
     }
 
-    public Item playDrawFromDropped(int player, DroppedDeckPos pos) {
+    public Item playerDrawFromDropped(int player, DroppedDeckPos pos) {
         if (player != getCurrentSheriff()) return null;
         Item i = droppedDecks[pos.ordinal()].draw();
         hands[player].add(i);
         return i;
     }
 
-    public Item playDrop(int player, Item i) {
+    public Item playerDrop(int player, Item i) {
         if (player != getCurrentSheriff()) return null;
         hands[player].remove(i);
         final int pos = new Random().nextInt(2);

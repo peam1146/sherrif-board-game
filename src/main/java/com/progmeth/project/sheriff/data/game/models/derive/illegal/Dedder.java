@@ -1,7 +1,7 @@
-package com.progmeth.project.sheriff.data.game.model.derive.illegal;
+package com.progmeth.project.sheriff.data.game.models.derive.illegal;
 
-import com.progmeth.project.sheriff.data.game.model.base.Illegal;
-import com.progmeth.project.sheriff.data.game.model.base.Item;
+import com.progmeth.project.sheriff.data.game.models.base.Illegal;
+import com.progmeth.project.sheriff.data.game.models.base.Item;
 
 public class Dedder extends Item implements Illegal {
     public static Dedder instance = new Dedder();

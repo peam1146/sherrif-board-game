@@ -1,6 +1,6 @@
-package com.progmeth.project.sheriff.data.game.model.derive.deck;
+package com.progmeth.project.sheriff.data.game.models.derive.deck;
 
-import com.progmeth.project.sheriff.data.game.model.base.Item;
+import com.progmeth.project.sheriff.data.game.models.base.Item;
 
 import java.util.Stack;
 

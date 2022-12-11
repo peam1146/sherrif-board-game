@@ -1,13 +1,13 @@
 package com.progmeth.project.sheriff.domain.game.usecase;
 
-import com.progmeth.project.sheriff.data.game.model.derive.illegal.Crossbow;
-import com.progmeth.project.sheriff.data.game.model.derive.illegal.Dedder;
-import com.progmeth.project.sheriff.data.game.model.derive.illegal.Mead;
-import com.progmeth.project.sheriff.data.game.model.derive.illegal.RoyalRooster;
-import com.progmeth.project.sheriff.data.game.model.derive.legal.Apple;
-import com.progmeth.project.sheriff.data.game.model.derive.legal.Bread;
-import com.progmeth.project.sheriff.data.game.model.derive.legal.Cheese;
-import com.progmeth.project.sheriff.data.game.model.derive.legal.Chicken;
+import com.progmeth.project.sheriff.data.game.models.derive.illegal.Crossbow;
+import com.progmeth.project.sheriff.data.game.models.derive.illegal.Dedder;
+import com.progmeth.project.sheriff.data.game.models.derive.illegal.Mead;
+import com.progmeth.project.sheriff.data.game.models.derive.illegal.RoyalRooster;
+import com.progmeth.project.sheriff.data.game.models.derive.legal.Apple;
+import com.progmeth.project.sheriff.data.game.models.derive.legal.Bread;
+import com.progmeth.project.sheriff.data.game.models.derive.legal.Cheese;
+import com.progmeth.project.sheriff.data.game.models.derive.legal.Chicken;
 
 public class CardUsecase {
     public Apple getApple() {
