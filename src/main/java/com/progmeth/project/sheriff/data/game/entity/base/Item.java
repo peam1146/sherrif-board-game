@@ -1,4 +1,4 @@
-package com.progmeth.project.sheriff.usecases.game.logic.entity.base;
+package com.progmeth.project.sheriff.data.game.entity.base;
 
 public abstract class Item {
 
