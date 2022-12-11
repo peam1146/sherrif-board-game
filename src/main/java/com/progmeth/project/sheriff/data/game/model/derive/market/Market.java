@@ -1,12 +1,12 @@
-package com.progmeth.project.sheriff.data.game.entity.derive.market;
+package com.progmeth.project.sheriff.data.game.model.derive.market;
 
-import com.progmeth.project.sheriff.data.game.entity.base.Illegal;
-import com.progmeth.project.sheriff.data.game.entity.base.Item;
-import com.progmeth.project.sheriff.data.game.entity.base.Legal;
-import com.progmeth.project.sheriff.data.game.entity.derive.legal.Apple;
-import com.progmeth.project.sheriff.data.game.entity.derive.legal.Bread;
-import com.progmeth.project.sheriff.data.game.entity.derive.legal.Cheese;
-import com.progmeth.project.sheriff.data.game.entity.derive.legal.Chicken;
+import com.progmeth.project.sheriff.data.game.model.base.Illegal;
+import com.progmeth.project.sheriff.data.game.model.base.Item;
+import com.progmeth.project.sheriff.data.game.model.base.Legal;
+import com.progmeth.project.sheriff.data.game.model.derive.legal.Apple;
+import com.progmeth.project.sheriff.data.game.model.derive.legal.Bread;
+import com.progmeth.project.sheriff.data.game.model.derive.legal.Cheese;
+import com.progmeth.project.sheriff.data.game.model.derive.legal.Chicken;
 
 import java.util.ArrayList;
 

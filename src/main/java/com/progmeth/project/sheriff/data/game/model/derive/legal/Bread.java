@@ -1,8 +1,8 @@
-package com.progmeth.project.sheriff.data.game.entity.derive.legal;
+package com.progmeth.project.sheriff.data.game.model.derive.legal;
 
 
-import com.progmeth.project.sheriff.data.game.entity.base.Item;
-import com.progmeth.project.sheriff.data.game.entity.base.Legal;
+import com.progmeth.project.sheriff.data.game.model.base.Item;
+import com.progmeth.project.sheriff.data.game.model.base.Legal;
 
 public class Bread extends Item implements Legal {
     public static Bread instance = new Bread();

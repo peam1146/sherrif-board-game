@@ -1,6 +1,6 @@
-package com.progmeth.project.sheriff.data.game.entity.derive.hand;
+package com.progmeth.project.sheriff.data.game.model.derive.hand;
 
-import com.progmeth.project.sheriff.data.game.entity.base.Item;
+import com.progmeth.project.sheriff.data.game.model.base.Item;
 
 import java.util.ArrayList;
 
