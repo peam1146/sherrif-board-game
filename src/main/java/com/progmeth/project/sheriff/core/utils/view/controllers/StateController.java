@@ -1,4 +1,4 @@
-package com.progmeth.project.sheriff.core.utils.controllers;
+package com.progmeth.project.sheriff.core.utils.view.controllers;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;

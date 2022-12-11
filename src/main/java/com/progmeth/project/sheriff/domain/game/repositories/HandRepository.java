@@ -1,15 +1,14 @@
 package com.progmeth.project.sheriff.domain.game.repositories;
 
 import com.progmeth.project.sheriff.data.game.entity.base.Item;
+import io.reactivex.rxjava3.core.Single;
 
-import java.util.concurrent.Future;
+public interface HandRepository {
+    public Single<Item[]> getHand();
 
-public abstract class HandRepository {
-    public abstract Future<Item[]> getHand();
+    public Single<Void> draw();
 
-    public abstract Future<Void> draw();
+    public Single<Void> drop(Item item);
 
-    public abstract Future<Void> drop(Item item);
-
-    public abstract Future<Void> dropAll();
+    public Single<Void> dropAll();
 }

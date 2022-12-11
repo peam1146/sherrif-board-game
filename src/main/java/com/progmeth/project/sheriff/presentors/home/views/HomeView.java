@@ -1,6 +1,6 @@
 package com.progmeth.project.sheriff.presentors.home.views;
 
-import com.progmeth.project.sheriff.core.utils.controllers.StreamBuilder;
+import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
 import com.progmeth.project.sheriff.presentors.home.controllers.HomeController;
 import com.progmeth.project.sheriff.presentors.home.controllers.states.HomeState;
 import com.progmeth.project.sheriff.presentors.home.controllers.states.Idle;

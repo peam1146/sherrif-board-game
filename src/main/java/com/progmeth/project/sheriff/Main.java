@@ -3,7 +3,7 @@ package com.progmeth.project.sheriff;
 import com.progmeth.project.sheriff.core.controllers.main.MainController;
 import com.progmeth.project.sheriff.core.controllers.router.RouterController;
 import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
-import com.progmeth.project.sheriff.core.utils.controllers.StreamBuilder;
+import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
 import com.progmeth.project.sheriff.presentors.game.controllers.GameController;
 import com.progmeth.project.sheriff.presentors.game.views.GameView;
 import com.progmeth.project.sheriff.presentors.home.controllers.HomeController;

@@ -2,7 +2,7 @@ package com.progmeth.project.sheriff.presentors.home.controllers;
 
 import com.progmeth.project.sheriff.core.controllers.main.MainController;
 import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
-import com.progmeth.project.sheriff.core.utils.controllers.StateController;
+import com.progmeth.project.sheriff.core.utils.view.controllers.StateController;
 import com.progmeth.project.sheriff.presentors.home.controllers.states.HomeState;
 import com.progmeth.project.sheriff.presentors.home.controllers.states.Init;
 
