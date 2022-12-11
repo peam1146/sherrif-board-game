@@ -26,6 +26,8 @@ public class HomeView extends StackPane {
     public HomeView(HomeController controller) {
         this.controller = controller;
         startButton.setFont(new Font(24));
+        startButton.textFillProperty().setValue(Color.WHITE);
+        startButton.setBackground(new Background(new BackgroundFill(Color.rgb(33,7,11), null, null)));
         super.setAlignment(CENTER);
         super.setBackground(new Background(new BackgroundFill(Color.BROWN, null, null)));
         VBox menu = new VBox();

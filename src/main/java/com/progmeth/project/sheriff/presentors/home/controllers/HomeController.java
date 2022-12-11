@@ -14,7 +14,7 @@ public class HomeController extends StateController<HomeState> {
         this.mainController = mainController;
     }
     public void startGame() {
-        mainController.getRouterController().navigateTo(RouteState.SECOND);
+        mainController.getRouterController().navigateTo(RouteState.LOUGE);
     }
     public MainController getMainController() {
         return mainController;
