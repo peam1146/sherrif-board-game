@@ -1,12 +1,11 @@
-package com.progmeth.project.sheriff.data.game.server.models.request;
+package com.progmeth.project.sheriff.data.game.server.models.response;
 
 import com.progmeth.project.sheriff.data.game.server.models.type.Type;
-
-public abstract class Request {
+public abstract class Response {
     public final String topic;
-    public final Type type = Type.REQUEST;
+    public final Type type = Type.RESPONSE;
 
-    public Request(String topic) {
+    public Response(String topic) {
         this.topic = topic;
     }
 

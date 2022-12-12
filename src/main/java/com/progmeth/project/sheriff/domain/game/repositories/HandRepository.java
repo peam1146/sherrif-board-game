@@ -1,12 +1,13 @@
 package com.progmeth.project.sheriff.domain.game.repositories;
 
 import com.progmeth.project.sheriff.data.game.models.base.Item;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 public interface HandRepository {
     public Single<Item[]> getHand();
 
-    public Single<Void> draw();
+    public Completable draw();
 
     public Single<Void> drop(Item item);
 

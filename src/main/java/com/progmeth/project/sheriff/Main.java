@@ -4,6 +4,9 @@ import com.progmeth.project.sheriff.core.controllers.main.MainController;
 import com.progmeth.project.sheriff.core.controllers.router.RouterController;
 import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
 import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
+import com.progmeth.project.sheriff.data.game.server.repositories.RoomRepositoryServerImpl;
+import com.progmeth.project.sheriff.presentors.demo.controllers.DemoController;
+import com.progmeth.project.sheriff.presentors.demo.views.DemoView;
 import com.progmeth.project.sheriff.presentors.game.controllers.GameController;
 import com.progmeth.project.sheriff.presentors.game.views.GameView;
 import com.progmeth.project.sheriff.presentors.home.controllers.HomeController;
@@ -46,12 +49,17 @@ public class Main extends Application {
         final PlayerController playerController = new PlayerController(mainController);
         final PlayerView playerView = new PlayerView(playerController);
 
+
+        //demo
+        final RoomRepositoryServerImpl roomRepo = new RoomRepositoryServerImpl();
+        final DemoController demoController = new DemoController(roomRepo);
+        final DemoView demoView = new DemoView(demoController);
+
         final StreamBuilder<RouteState, RouterController> root = new StreamBuilder<>(routerController) {
             @Override
             protected Node builder(RouteState state) {
                 return switch (state) {
-                    case HOME -> homeView;
-                    case SECOND -> gameView;
+                    case HOME -> demoView;
                     case LOUGE -> lougeView;
                     case GAME_PLAYER -> playerView;
                     case GAME_SHERIFF -> gameView;
