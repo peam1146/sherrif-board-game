@@ -2,7 +2,7 @@ package com.progmeth.project.sheriff.presentors.louge.controllers;
 
 import com.progmeth.project.sheriff.core.controllers.main.MainController;
 import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
-import com.progmeth.project.sheriff.core.utils.controllers.StateController;
+import com.progmeth.project.sheriff.core.utils.view.controllers.StateController;
 import com.progmeth.project.sheriff.presentors.louge.controllers.states.LougeState;
 
 public class LougeController extends StateController<LougeState> {

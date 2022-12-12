@@ -1,15 +1,13 @@
 package com.progmeth.project.sheriff.presentors.player.views.components;
+        import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
         import com.progmeth.project.sheriff.presentors.common.GameFont;
+        import com.progmeth.project.sheriff.presentors.common.ItemImg;
         import com.progmeth.project.sheriff.presentors.common.components.BackCard;
         import com.progmeth.project.sheriff.presentors.common.components.Card;
-        import com.progmeth.project.sheriff.presentors.common.components.IllegalCard;
-        import com.progmeth.project.sheriff.presentors.common.components.LegalCard;
         import javafx.geometry.Insets;
         import javafx.geometry.Pos;
         import javafx.scene.layout.*;
         import javafx.scene.paint.Color;
-        import javafx.scene.text.Font;
-        import javafx.scene.text.FontWeight;
         import javafx.scene.text.Text;
 
 public class SideBar extends VBox {
@@ -22,6 +20,7 @@ public class SideBar extends VBox {
         super.setPadding(new Insets(10, 10, 10, 10));
         Text text = new Text("Goods Deck");
         text.setFont(new GameFont(20).getBlack());
+        text.setFill(Color.rgb(96,58,51));
         text.setStyle("-fx-font-style: italic; ");
 
         StackPane goodsDeckBadge = new StackPane();
@@ -31,10 +30,12 @@ public class SideBar extends VBox {
         goodsDeckBadge.setAlignment(Pos.CENTER);
         goodsDeckBadge.setStyle("-fx-background-color: #DACAA6;");
 
-        Card card = new BackCard();
-        Card card2 = new IllegalCard();
-        Card card3 = new LegalCard();
+        ItemEntity item = new ItemEntity(8, "test", false, 4,10, ItemImg.CHICKEN);
+        ItemEntity item2 = new ItemEntity(8, "test", true, 4,10, ItemImg.CHICKEN);
 
-        getChildren().addAll(goodsDeckBadge,card2,card,card3);
+        Card card = new BackCard(item);
+        Card card1 = new Card(item);
+        Card card2 = new Card(item2);
+        getChildren().addAll(goodsDeckBadge,card1,card,card2);
     }
 }

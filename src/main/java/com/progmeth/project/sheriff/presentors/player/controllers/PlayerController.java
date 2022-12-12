@@ -1,7 +1,7 @@
 package com.progmeth.project.sheriff.presentors.player.controllers;
 
 import com.progmeth.project.sheriff.core.controllers.main.MainController;
-import com.progmeth.project.sheriff.core.utils.controllers.StateController;
+import com.progmeth.project.sheriff.core.utils.view.controllers.StateController;
 import com.progmeth.project.sheriff.presentors.player.controllers.states.PlayerState;
 
 public class PlayerController extends StateController<PlayerState> {
