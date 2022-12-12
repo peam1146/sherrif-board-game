@@ -19,13 +19,13 @@ public class SideBar extends VBox {
         super.setAlignment(Pos.CENTER);
         super.setPadding(new Insets(10, 10, 10, 10));
         Text text = new Text("Goods Deck");
-        text.setFont(new GameFont(20).getBlack());
+        text.setFont(new GameFont(14).getBlack());
         text.setFill(Color.rgb(96,58,51));
         text.setStyle("-fx-font-style: italic; ");
 
         StackPane goodsDeckBadge = new StackPane();
         goodsDeckBadge.getChildren().add(text);
-        goodsDeckBadge.setMaxHeight(35);
+        goodsDeckBadge.setMinHeight(35);
         goodsDeckBadge.setPadding(new Insets(5, 5, 5, 5));
         goodsDeckBadge.setAlignment(Pos.CENTER);
         goodsDeckBadge.setStyle("-fx-background-color: #DACAA6;");

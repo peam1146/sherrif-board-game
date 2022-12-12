@@ -16,46 +16,52 @@ public class Card extends StackPane {
     protected int CARD_WIDTH = 107;
     protected int CARD_HEIGHT = 136;
 
+    private final ImageView bg;
+    private final ImageView img;
+    private final Text fine;
+    private final Text timeCost;
+    private final Text price;
+
     public Card(ItemEntity itemEntity) {
         this.item = itemEntity;
         super.setMinWidth(CARD_WIDTH);
         super.setMinHeight(CARD_HEIGHT);
+        this.bg = new ImageView(item.isLegal() ? IMG_LEGAL_CARD : IMG_ILLEGAL_CARD);
 
-        ImageView bg = new ImageView(item.isLegal() ? IMG_LEGAL_CARD : IMG_ILLEGAL_CARD);
         bg.setFitWidth(CARD_WIDTH);
         bg.setFitHeight(CARD_HEIGHT);
 
         Font font = new GameFont(14).getBlack();
         Color CARD_RED = Color.rgb(181,0,0);
-        Text Price = new Text("+"+item.getPrice());
-        Price.setFont(font);
-        Text Fine = new Text("-"+item.getFine());
-        Fine.setFont(font);
-        Fine.setFill(CARD_RED);
-        Text TimeCost = new Text("-"+item.getTimeCost());
-        TimeCost.setFont(font);
-        TimeCost.setFill(CARD_RED);
+        price = new Text("+"+item.getPrice());
+        price.setFont(font);
+        fine = new Text("-"+item.getFine());
+        fine.setFont(font);
+        fine.setFill(CARD_RED);
+        timeCost = new Text("-"+item.getTimeCost());
+        timeCost.setFont(font);
+        timeCost.setFill(CARD_RED);
         getChildren().addAll(bg);
 
         if(item.isLegal()) {
-            getChildren().addAll(Price,TimeCost);
-            setAlignment(Price, Pos.TOP_LEFT);
-            setAlignment(TimeCost, Pos.BOTTOM_RIGHT);
-            TimeCost.setTranslateX(-24);
-            TimeCost.setTranslateY(-10);
-            TimeCost.setStyle("-fx-text-fill: #B50000;");
+            getChildren().addAll(price,timeCost);
+            setAlignment(price, Pos.TOP_LEFT);
+            setAlignment(timeCost, Pos.BOTTOM_RIGHT);
+            timeCost.setTranslateX(-24);
+            timeCost.setTranslateY(-10);
+            timeCost.setStyle("-fx-text-fill: #B50000;");
         } else {
-            getChildren().addAll(Price,Fine);
-            setAlignment(Price, Pos.TOP_LEFT);
-            setAlignment(Fine, Pos.BOTTOM_RIGHT);
-            Fine.setTranslateX(-24);
-            Fine.setTranslateY(-10);
-            Fine.setStyle("-fx-text-fill: #B50000;");
+            getChildren().addAll(price,fine);
+            setAlignment(price, Pos.TOP_LEFT);
+            setAlignment(fine, Pos.BOTTOM_RIGHT);
+            fine.setTranslateX(-24);
+            fine.setTranslateY(-10);
+            fine.setStyle("-fx-text-fill: #B50000;");
         }
-        Price.setTranslateX(24);
-        Price.setTranslateY(10);
+        price.setTranslateX(24);
+        price.setTranslateY(10);
 
-        ImageView img = new ImageView(item.getImgURL());
+        this.img = new ImageView(item.getImgURL());
         img.setPreserveRatio(true);
         img.setFitWidth(32);
         img.setTranslateY(-10);
@@ -66,4 +72,31 @@ public class Card extends StackPane {
         return new BackCard(item);
     }
 
+    public void setSmallCard() {
+        CARD_WIDTH = 65;
+        CARD_HEIGHT = 83;
+        super.setMaxWidth(CARD_WIDTH);
+        super.setMinWidth(CARD_WIDTH);
+        super.setMaxHeight(CARD_HEIGHT);
+        super.setMinHeight(CARD_HEIGHT);
+        bg.setFitHeight(CARD_HEIGHT);
+        bg.setFitWidth(CARD_WIDTH);
+        img.setFitWidth(24);
+        img.setTranslateY(-5);
+
+        Font font = new GameFont(10).getBlack();
+        price.setTranslateX(5);
+        price.setTranslateY(5);
+        price.setFont(font);
+
+        if(item.isLegal()) {
+            timeCost.setTranslateX(-5);
+            timeCost.setTranslateY(-5);
+            timeCost.setFont(font);
+        } else {
+            fine.setTranslateX(-5);
+            fine.setTranslateY(-5);
+            fine.setFont(font);
+        }
+    }
 }

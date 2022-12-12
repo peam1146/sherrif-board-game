@@ -10,7 +10,7 @@ public class PlayerView extends BorderPane {
     private final PlayerController controller;
     public PlayerView(PlayerController controller){
         this.controller = controller;
-        super.setStyle("-fx-background-color: #DACAA6;");
+        super.setStyle("-fx-background-color: #E6DCC2;");
         Text text = new Text("Player View");
         SideBar sideBar = new SideBar();
         super.setLeft(sideBar);
