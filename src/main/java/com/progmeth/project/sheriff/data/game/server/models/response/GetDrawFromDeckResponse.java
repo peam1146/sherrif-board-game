@@ -2,10 +2,12 @@ package com.progmeth.project.sheriff.data.game.server.models.response;
 
 import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
 
-public class GetHandResponse extends Response {
-    public static String responseTopic = "getHand";
+public class GetDrawFromDeckResponse extends Response {
+    public static final String responseTopic = "getDrawFromDeck";
+
     public ItemDTO[] hand;
-    public GetHandResponse () {
+
+    public GetDrawFromDeckResponse() {
         super(responseTopic);
     }
 
@@ -17,8 +19,8 @@ public class GetHandResponse extends Response {
             return this;
         }
 
-        public GetHandResponse build() {
-            GetHandResponse res = new GetHandResponse();
+        public GetDrawFromDeckResponse build() {
+            GetDrawFromDeckResponse res = new GetDrawFromDeckResponse();
             res.hand = hand;
             return res;
         }

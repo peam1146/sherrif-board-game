@@ -1,8 +1,7 @@
 package com.progmeth.project.sheriff.presentors.demo.views;
 
 import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
-import com.progmeth.project.sheriff.data.game.server.RoomClient;
-import com.progmeth.project.sheriff.data.game.server.RoomServer;
+import com.progmeth.project.sheriff.data.game.server.network.RoomServer;
 import com.progmeth.project.sheriff.presentors.demo.controllers.DemoController;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -33,7 +32,7 @@ public class DemoView extends StackPane {
             }
         };
         btn2.setOnMouseClicked(e -> controller.joinRoom("test"));
-        btn3.setOnMouseClicked(e -> RoomClient.getInstance().stop());
+        btn3.setOnMouseClicked(e -> controller.startGame());
         btn4.setOnMouseClicked(e -> RoomServer.getInstance().close());
         final VBox box = new VBox(stream, btn2, btn3, btn4);
         box.setAlignment(Pos.CENTER);

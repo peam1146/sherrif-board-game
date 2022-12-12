@@ -1,7 +1,7 @@
 package com.progmeth.project.sheriff.data.game.server.models.request;
 
 public class JoinRoomRequest extends Request {
-    public String room;
+    public String playerName;
     public final static String requestTopic = "joinRoom";
 
     public JoinRoomRequest() {
@@ -10,20 +10,20 @@ public class JoinRoomRequest extends Request {
 
     public JoinRoomRequest(Builder builder) {
         super(requestTopic);
-        this.room = builder.room;
+        this.playerName = builder.playerName;
     }
 
     public static class Builder {
-        private String room;
+        private String playerName;
 
-        public Builder setRoom(String room) {
-            this.room = room;
+        public Builder setRoom(String playerName) {
+            this.playerName = playerName;
             return this;
         }
 
         public JoinRoomRequest build() {
             JoinRoomRequest req = new JoinRoomRequest();
-            req.room = room;
+            req.playerName = playerName;
             return req;
         }
     }

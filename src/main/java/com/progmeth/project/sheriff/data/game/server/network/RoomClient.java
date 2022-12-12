@@ -1,12 +1,12 @@
-package com.progmeth.project.sheriff.data.game.server;
+package com.progmeth.project.sheriff.data.game.server.network;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
-import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
+import com.progmeth.project.sheriff.data.game.server.models.request.StartGameRequest;
 import com.progmeth.project.sheriff.data.game.server.models.response.Response;
-import com.progmeth.project.sheriff.data.game.server.models.type.Type;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import java.io.IOException;
@@ -18,7 +18,8 @@ public class RoomClient {
     private static RoomClient clientInstance;
     private PublishSubject<Response> responseSubject = PublishSubject.create();
 
-    private static class ClientListener extends Listener {
+
+    private class ClientListener extends Listener {
 
         @Override
         public void connected(Connection connection) {
@@ -51,11 +52,8 @@ public class RoomClient {
     }
 
     private void register() {
-        final var kryo = client.getKryo();
-        //TODO: Register all classes
-        kryo.register(JoinRoomRequest.class);
-        kryo.register(JoinRoomResponse.class);
-        kryo.register(Type.class);
+        final Kryo kryo = client.getKryo();
+        Serialize.register(kryo);
     }
 
     public void setRunning(boolean running) {
@@ -93,6 +91,11 @@ public class RoomClient {
     public void stop() {
         setRunning(false);
         client.stop();
+    }
+
+    public void startGame() {
+        final StartGameRequest request = new StartGameRequest();
+        client.sendTCP(request);
     }
 
     public PublishSubject<Response> getResponseSubject() {

@@ -32,4 +32,12 @@ public class DemoController extends StateController<Integer> {
         }).subscribe();
     }
 
+    public void startGame() {
+        final Completable com = roomRepo.startGame();
+        com.doOnComplete(() -> {
+            System.out.println("Game started");
+        }).doOnError((e) -> {
+            System.out.println("Game start failed");
+        }).subscribe();
+    }
 }

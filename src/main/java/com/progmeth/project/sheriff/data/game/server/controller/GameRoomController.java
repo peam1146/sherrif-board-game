@@ -6,10 +6,12 @@ import com.progmeth.project.sheriff.data.game.models.derive.deck.MainCardDeck;
 import com.progmeth.project.sheriff.data.game.models.derive.hand.Hand;
 import com.progmeth.project.sheriff.data.game.models.derive.market.Market;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameRoomController {
     private final int playerCount;
+    private final String[] playerNames;
     private final Hand[] hands;
     private final MainCardDeck deck;
     private final DroppedDeck[] droppedDecks;
@@ -20,8 +22,9 @@ public class GameRoomController {
     private int timer = 0;
     private final int maxTimer = 60;
 
-    public GameRoomController(int playerCount) {
+    public GameRoomController(int playerCount, String[] playerNames) {
         this.playerCount = playerCount;
+        this.playerNames = playerNames;
         this.hands = new Hand[playerCount];
         this.deck = new MainCardDeck();
         this.droppedDecks = new DroppedDeck[2];
@@ -76,4 +79,18 @@ public class GameRoomController {
         markets[player].add(i);
     }
 
+    public static class GameControllerBuilder {
+        private final ArrayList<String> playerNames = new ArrayList<>();
+
+
+        public GameControllerBuilder addPlayer(String name) {
+            if (playerNames.size() < 5) playerNames.add(name);
+            return this;
+        }
+
+        public GameRoomController build() {
+            final var arr = playerNames.toArray(new String[0]);
+            return new GameRoomController(playerNames.size(), arr);
+        }
+    }
 }
