@@ -38,14 +38,16 @@ javafx {
 }
 
 dependencies {
+    implementation 'org.ow2.asm:asm:9.4'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
     implementation('org.controlsfx:controlsfx:11.1.2')
     implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
     implementation('com.github.almasb:fxgl:17.1') {
         exclude(group: 'org.openjfx')
     }
-    implementation 'kryonet:kryonet:2.21-2'
+    implementation 'com.esotericsoftware:kryonet:2.22.0-RC1'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.esotericsoftware.kryo:kryo5:5.3.0'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

@@ -1,19 +1,21 @@
 package com.progmeth.project.sheriff.domain.game.entity;
 
+import java.net.InetAddress;
+
 public class RoomEntity {
     private final String name;
-    private final String url;
+    private final InetAddress address;
 
-    public RoomEntity(String name, String url) {
+    public RoomEntity(String name, InetAddress address) {
         this.name = name;
-        this.url = url;
+        this.address = address;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getUrl() {
-        return url;
+    public InetAddress getAddress() {
+        return address;
     }
 }
