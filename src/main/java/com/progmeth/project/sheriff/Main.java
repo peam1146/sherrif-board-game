@@ -4,7 +4,7 @@ import com.progmeth.project.sheriff.core.controllers.main.MainController;
 import com.progmeth.project.sheriff.core.controllers.router.RouterController;
 import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
 import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
-import com.progmeth.project.sheriff.data.game.server.repositories.RoomRepositoryServerImpl;
+import com.progmeth.project.sheriff.data.game.server.repositories.RoomRepositoryImpl;
 import com.progmeth.project.sheriff.presentors.demo.controllers.DemoController;
 import com.progmeth.project.sheriff.presentors.demo.views.DemoView;
 import com.progmeth.project.sheriff.presentors.game.controllers.GameController;
@@ -53,7 +53,7 @@ public class Main extends Application {
 
 
         //demo
-        final RoomRepositoryServerImpl roomRepo = new RoomRepositoryServerImpl();
+        final RoomRepositoryImpl roomRepo = new RoomRepositoryImpl();
         final DemoController demoController = new DemoController(roomRepo);
         final DemoView demoView = new DemoView(demoController);
 
@@ -75,6 +75,11 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         setUpStage(primaryStage);
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        System.out.println("Stopping");
     }
 
     public static void main(String[] args) {

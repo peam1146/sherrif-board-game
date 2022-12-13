@@ -1,5 +1,6 @@
 package com.progmeth.project.sheriff.data.game.server.repositories;
 
+import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
 import com.progmeth.project.sheriff.data.game.server.network.RoomClient;
 import com.progmeth.project.sheriff.data.game.server.network.RoomServer;
 import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
@@ -12,7 +13,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.io.IOException;
 
 
-public class RoomRepositoryServerImpl implements RoomRepository {
+public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public Completable startGame() {
         return Completable.create(emitter -> {
@@ -35,6 +36,7 @@ public class RoomRepositoryServerImpl implements RoomRepository {
             final PublishSubject<Response> responseSubject = RoomClient.getInstance().getResponseSubject();
             final var disposable = responseSubject.subscribe(response -> {
                 if (response.getTopic().equals(JoinRoomRequest.requestTopic)) {
+                    RoomClient.getInstance().setPlayerID(((JoinRoomResponse) response).playerID);
                     emitter.onComplete();
                 }
             });

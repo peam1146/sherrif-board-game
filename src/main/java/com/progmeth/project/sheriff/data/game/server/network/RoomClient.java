@@ -4,15 +4,19 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.progmeth.project.sheriff.data.game.server.models.request.GetHandRequest;
 import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
 import com.progmeth.project.sheriff.data.game.server.models.request.StartGameRequest;
+import com.progmeth.project.sheriff.data.game.server.models.response.GetHandResponse;
+import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.Response;
+import com.progmeth.project.sheriff.data.game.server.models.response.StartGameResponse;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import java.io.IOException;
 
 public class RoomClient {
-    private String roomName;
+    private int PlayerID;
     private Client client;
     private boolean isRunning = false;
     private static RoomClient clientInstance;
@@ -28,9 +32,23 @@ public class RoomClient {
 
         @Override
         public void received(Connection connection, Object object) {
-            if (object instanceof Response) {
-                System.out.println("Received response");
+            if (!(object instanceof Response)) return;
+            if (object instanceof GetHandResponse) {
+                System.out.println("Received GetHandResponse");
                 clientInstance.responseSubject.onNext((Response) object);
+                return;
+            }
+
+            if (object instanceof JoinRoomResponse) {
+                System.out.println("Received JoinRoomResponse");
+                clientInstance.responseSubject.onNext((Response) object);
+                return;
+            }
+
+            if (object instanceof StartGameResponse) {
+                System.out.println("Received StartGameResponse");
+                clientInstance.responseSubject.onNext((Response) object);
+                return;
             }
         }
 
@@ -95,6 +113,15 @@ public class RoomClient {
 
     public void startGame() {
         final StartGameRequest request = new StartGameRequest();
+        client.sendTCP(request);
+    }
+
+    public void setPlayerID(int playerID) {
+        PlayerID = playerID;
+    }
+
+    public void getHand(int playerID) {
+        final GetHandRequest request = new GetHandRequest.Builder().setPlayerID(playerID).build();
         client.sendTCP(request);
     }
 

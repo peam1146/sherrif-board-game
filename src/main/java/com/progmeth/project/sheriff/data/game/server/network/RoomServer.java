@@ -4,13 +4,20 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.progmeth.project.sheriff.data.game.models.base.Illegal;
+import com.progmeth.project.sheriff.data.game.models.base.Legal;
 import com.progmeth.project.sheriff.data.game.server.controller.GameRoomController;
+import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
+import com.progmeth.project.sheriff.data.game.server.models.request.GetHandRequest;
 import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
+import com.progmeth.project.sheriff.data.game.server.models.request.Request;
 import com.progmeth.project.sheriff.data.game.server.models.request.StartGameRequest;
+import com.progmeth.project.sheriff.data.game.server.models.response.GetHandResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.StartGameResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RoomServer {
     private String roomName;
@@ -35,21 +42,38 @@ public class RoomServer {
 
         @Override
         public void received(Connection connection, Object object) {
-            System.out.println("Received");
-            if (object instanceof StartGameRequest) {
+            if (!(object instanceof Request)) return;
+            if (object instanceof final StartGameRequest req) {
                 System.out.println("Received start game request");
                 gameRoomController = gameControllerBuilder.build();
                 connection.sendTCP(new StartGameResponse.Builder().setSuccess().build());
                 return;
             }
 
-            if (object instanceof JoinRoomRequest) {
-                final JoinRoomRequest req = (JoinRoomRequest) object;
+            if (object instanceof final JoinRoomRequest req) {
                 System.out.println("Received join room request");
                 gameControllerBuilder.addPlayer(req.playerName);
                 connection.sendTCP(new JoinRoomResponse.Builder().setPlayerName(req.playerName).setPlayerID(1).build());
                 return;
             }
+
+            if (object instanceof final GetHandRequest req) {
+                System.out.println("Received get hand request");
+                final var hand = gameRoomController.getHand(req.playerID);
+                final ArrayList<ItemDTO> handDTO = new ArrayList<>();
+                for (var item : hand.getItems()) {
+                    int fine = 0;
+                    int timeCost = 0;
+                    if (item instanceof final Legal legal)
+                        fine = legal.getTimeCost();
+                    if (item instanceof final Illegal illegal)
+                        fine = illegal.getFine();
+                    handDTO.add(new ItemDTO.Builder().setFine(fine).setName(item.getName()).setPrice(item.getPrice()).setTimeCost(timeCost).build());
+                }
+                GetHandResponse resp = new GetHandResponse.Builder().setHand(handDTO).build();
+                connection.sendTCP(resp);
+            }
+
         }
     }
 
