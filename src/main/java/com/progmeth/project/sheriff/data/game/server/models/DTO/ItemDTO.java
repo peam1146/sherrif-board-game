@@ -1,7 +1,10 @@
 package com.progmeth.project.sheriff.data.game.server.models.DTO;
 
+import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
+
+import java.util.ArrayList;
+
 public class ItemDTO {
-    public String imgURL;
     public int price;
     public String name;
     public boolean isLegal;
@@ -9,17 +12,11 @@ public class ItemDTO {
     public int fine;
 
     public static class Builder {
-        private String imgURL;
         private int price;
         private String name;
         private boolean isLegal;
         private int timeCost;
         private int fine;
-
-        public Builder setImaURL(String imgURL) {
-            this.imgURL = imgURL;
-            return this;
-        }
 
         public Builder setPrice(int price) {
             this.price = price;
@@ -48,7 +45,6 @@ public class ItemDTO {
 
         public ItemDTO build() {
             ItemDTO dto = new ItemDTO();
-            dto.imgURL = imgURL;
             dto.price = price;
             dto.name = name;
             dto.isLegal = isLegal;
@@ -56,5 +52,13 @@ public class ItemDTO {
             dto.fine = fine;
             return dto;
         }
+    }
+
+    public static ArrayList<ItemEntity> toEntity(ArrayList<ItemDTO> dtos) {
+        ArrayList<ItemEntity> res = new ArrayList<>();
+        for (ItemDTO dto : dtos) {
+            res.add(new ItemEntity.Builder().setName(dto.name).setPrice(dto.price).setIsLegal(dto.isLegal).setTimeCost(dto.timeCost).setFine(dto.fine).build());
+        }
+        return res;
     }
 }

@@ -1,6 +1,10 @@
 package com.progmeth.project.sheriff.data.game.server.repositories;
 
-import com.progmeth.project.sheriff.data.game.models.base.Item;
+import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
+import com.progmeth.project.sheriff.data.game.server.models.response.DropAllCardsReponse;
+import com.progmeth.project.sheriff.data.game.server.models.response.DropCardResponse;
+import com.progmeth.project.sheriff.data.game.server.models.response.GetHandResponse;
+import com.progmeth.project.sheriff.data.game.server.network.RoomClient;
 import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 import com.progmeth.project.sheriff.domain.game.repositories.HandRepository;
 import io.reactivex.rxjava3.core.Completable;
@@ -12,7 +16,14 @@ public class HandRepositoryImpl implements HandRepository {
 
     @Override
     public Single<ArrayList<ItemEntity>> getHand() {
-        return null;
+        return Single.create(emitter -> {
+            RoomClient.getInstance().getHand();
+            RoomClient.getInstance().getResponseSubject().subscribe(response -> {
+                if (response instanceof final GetHandResponse res) {
+                    emitter.onSuccess(ItemDTO.toEntity(res.hand));
+                }
+            });
+        });
     }
 
     @Override
@@ -21,12 +32,26 @@ public class HandRepositoryImpl implements HandRepository {
     }
 
     @Override
-    public Single<ArrayList<ItemEntity>> drop(Item item) {
-        return null;
+    public Single<ArrayList<ItemEntity>> drop(ItemEntity item) {
+        return Single.create(emitter -> {
+            RoomClient.getInstance().dropCard(item.getName());
+            emitter.setDisposable(RoomClient.getInstance().getResponseSubject().subscribe(response -> {
+                if (response instanceof final DropCardResponse dropCardResponse) {
+                    emitter.onSuccess(ItemDTO.toEntity(dropCardResponse.hand));
+                }
+            }));
+        });
     }
 
     @Override
     public Completable dropAll() {
-        return null;
+        return Completable.create(emitter -> {
+            RoomClient.getInstance().dropAllCards();
+            emitter.setDisposable(RoomClient.getInstance().getResponseSubject().subscribe(response -> {
+                if (response instanceof DropAllCardsReponse) {
+                    emitter.onComplete();
+                }
+            }));
+        });
     }
 }
