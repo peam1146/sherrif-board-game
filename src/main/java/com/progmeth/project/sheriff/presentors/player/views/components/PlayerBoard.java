@@ -1,12 +1,10 @@
 package com.progmeth.project.sheriff.presentors.player.views.components;
 
-import com.progmeth.project.sheriff.data.game.model.base.Item;
-import com.progmeth.project.sheriff.presentors.common.components.BackCard;
+import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
 
@@ -59,7 +57,7 @@ public class PlayerBoard extends BorderPane {
         topContainer.getChildren().addAll(topContainerHBox,topCardSlot);
 
         Hand hand = new Hand();
-        hand.setItem(new Item[]{});
+        hand.setItem(new ItemEntity[0]);
 
         super.setLeft(leftCardSlot);
         super.setRight(rightCardSlot);

@@ -47,7 +47,7 @@ public class RoomServer {
                 final JoinRoomRequest req = (JoinRoomRequest) object;
                 System.out.println("Received join room request");
                 gameControllerBuilder.addPlayer(req.playerName);
-                connection.sendTCP(new JoinRoomResponse.Builder().setRoom("test").setPlayerID(1).build());
+                connection.sendTCP(new JoinRoomResponse.Builder().setPlayerName(req.playerName).setPlayerID(1).build());
                 return;
             }
         }
