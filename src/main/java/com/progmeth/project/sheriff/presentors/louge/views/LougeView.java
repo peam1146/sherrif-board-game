@@ -30,32 +30,32 @@ public class LougeView extends StackPane {
         bgPlateImage.setFitHeight(466);
         bgPlateImage.setFitWidth(459);
 
-        Background TextFieldBackground = new Background(new BackgroundFill(Color.rgb(96,58,51), null, null));
-        String TextFieldStyle = "-fx-control-inner-background: #603A33;-fx-border-color: #21070B;-fx-border-width: 2px;-fx-prompt-text-fill: #FFFFFF;-fx-font-size: 16px;";
-        TextField IPField = new TextField();
-        IPField.setPromptText("Server IP");
-        IPField.setMaxWidth(334);
-        IPField.setPrefHeight(46);
-        IPField.setTranslateY(-54);
-        IPField.setBackground(TextFieldBackground);
-        IPField.setStyle(TextFieldStyle);
+        Background textfieldbackground = new Background(new BackgroundFill(Color.rgb(96,58,51), null, null));
+        String textFieldStyle = "-fx-control-inner-background: #603A33;-fx-border-color: #21070B;-fx-border-width: 2px;-fx-prompt-text-fill: #FFFFFF;-fx-font-size: 16px;";
+        TextField ipfield = new TextField();
+        ipfield.setPromptText("Server IP");
+        ipfield.setMaxWidth(334);
+        ipfield.setPrefHeight(46);
+        ipfield.setTranslateY(-54);
+        ipfield.setBackground(textfieldbackground);
+        ipfield.setStyle(textFieldStyle);
 
-        TextField UsernameField = new TextField();
-        UsernameField.setPromptText("Username");
-        UsernameField.setMaxWidth(334);
-        UsernameField.setPrefHeight(46);
-        UsernameField.setBackground(TextFieldBackground);
-        UsernameField.setStyle(TextFieldStyle);
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Username");
+        usernameField.setMaxWidth(334);
+        usernameField.setPrefHeight(46);
+        usernameField.setBackground(textfieldbackground);
+        usernameField.setStyle(textFieldStyle);
 
-        Button JoinButton = new Button("Join");
-        JoinButton.setFont(new Font(16));
-        JoinButton.textFillProperty().setValue(Color.WHITE);
-        JoinButton.setStyle("-fx-background-color: #21070B;-fx-border-radius: 0;");
-        JoinButton.setTranslateY(50);
-        JoinButton.setMinWidth(88);
-        JoinButton.setTranslateX(167-44); //167 from 334/2 44 from 88/2
+        Button joinButton = new Button("Join");
+        joinButton.setFont(new Font(16));
+        joinButton.textFillProperty().setValue(Color.WHITE);
+        joinButton.setStyle("-fx-background-color: #21070B;-fx-border-radius: 0;");
+        joinButton.setTranslateY(50);
+        joinButton.setMinWidth(88);
+        joinButton.setTranslateX(167-44); //167 from 334/2 44 from 88/2
 
-        JoinButton.setOnMouseClicked(event -> controller.joinGame());
-        getChildren().addAll(bgImage,bgPlateImage, IPField, UsernameField,JoinButton);
+        joinButton.setOnMouseClicked(event -> controller.joinGame());
+        getChildren().addAll(bgImage,bgPlateImage, ipfield, usernameField,joinButton);
     }
 }

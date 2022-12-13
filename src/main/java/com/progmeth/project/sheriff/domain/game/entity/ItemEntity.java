@@ -47,5 +47,9 @@ public class ItemEntity {
     public int getFine() {
         return fine;
     }
+
+    public String getImgURL() {
+        return imgURL;
+    }
 }
 
