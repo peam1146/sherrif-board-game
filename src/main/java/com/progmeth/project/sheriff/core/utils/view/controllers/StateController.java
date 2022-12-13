@@ -5,11 +5,12 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 import java.util.ArrayList;
 
-public abstract class StateController<S> {
+public abstract class StateController<S> implements Disposable {
     private final BehaviorSubject<S> stateStream;
     private final Disposable stateSub;
     private S state;
     private final ArrayList<Disposable> disposables = new ArrayList<>();
+    private boolean disposed = false;
     public StateController(S initialState) {
         stateStream = BehaviorSubject.create();
         this.stateSub = stateStream.subscribe(this::setCurrentState);
@@ -31,9 +32,16 @@ public abstract class StateController<S> {
         disposables.add(disposable);
     }
     public void dispose() {
+        if (disposed) return;
         for (Disposable d : disposables) {
             d.dispose();
         }
         stateSub.dispose();
+        disposed = true;
+    }
+
+    @Override
+    public boolean isDisposed() {
+        return disposed;
     }
 }

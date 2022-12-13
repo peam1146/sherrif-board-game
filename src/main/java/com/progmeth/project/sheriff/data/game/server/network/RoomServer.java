@@ -36,7 +36,7 @@ public class RoomServer {
         @Override
         public void received(Connection connection, Object object) {
             if (!(object instanceof Request)) return;
-            if (object instanceof  StartGameRequest ) {
+            if (object instanceof StartGameRequest) {
                 System.out.println("Received start game request");
                 gameRoomController = gameControllerBuilder.build();
                 connection.sendTCP(new StartGameResponse.Builder().setSuccess().build());

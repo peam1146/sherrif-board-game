@@ -20,12 +20,12 @@ public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public Completable startGame() {
         return Completable.create(emitter -> {
-            RoomClient.getInstance().startGame();
             final var dispose = RoomClient.getInstance().getResponseSubject().subscribe(response -> {
                 if (response instanceof StartGameResponse) {
                     emitter.onComplete();
                 }
             });
+            RoomClient.getInstance().startGame();
             emitter.setDisposable(dispose);
         });
     }
@@ -33,12 +33,12 @@ public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public Single<ArrayList<String>> getPlayers() {
         return Single.create(emitter -> {
-            RoomClient.getInstance().getPlayers();
             final var dispose = RoomClient.getInstance().getResponseSubject().subscribe(response -> {
                 if (response instanceof final GetPlayersResponse getPlayersResponse) {
                     emitter.onSuccess(getPlayersResponse.players);
                 }
             });
+            RoomClient.getInstance().getPlayers();
             emitter.setDisposable(dispose);
         });
     }
@@ -48,7 +48,6 @@ public class RoomRepositoryImpl implements RoomRepository {
         if (!RoomClient.getInstance().getRunning())
             RoomClient.getInstance().setup();
         return Single.create(emitter -> {
-            RoomClient.getInstance().joinRoom(name);
             final PublishSubject<Response> responseSubject = RoomClient.getInstance().getResponseSubject();
             final var disposable = responseSubject.subscribe(response -> {
                 if (response.getTopic().equals(JoinRoomRequest.requestTopic)) {
@@ -57,6 +56,7 @@ public class RoomRepositoryImpl implements RoomRepository {
                     emitter.onSuccess(joinRoomResponse.playerNames);
                 }
             });
+            RoomClient.getInstance().joinRoom(name);
             emitter.setDisposable(disposable);
         });
     }
