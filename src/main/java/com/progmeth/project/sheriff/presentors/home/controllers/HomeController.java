@@ -13,9 +13,13 @@ public class HomeController extends StateController<HomeState> {
         super(new Init());
         this.mainController = mainController;
     }
-    public void startGame() {
+    public void joinRoom() {
         mainController.getRouterController().navigateTo(RouteState.LOUGE);
     }
+    public void createRoom() {
+        mainController.getRouterController().navigateTo(RouteState.LOUGE);
+    }
+
     public MainController getMainController() {
         return mainController;
     }
