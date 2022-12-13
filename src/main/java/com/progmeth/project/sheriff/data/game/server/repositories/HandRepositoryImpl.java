@@ -17,12 +17,12 @@ public class HandRepositoryImpl implements HandRepository {
     @Override
     public Single<ArrayList<ItemEntity>> getHand() {
         return Single.create(emitter -> {
-            RoomClient.getInstance().getHand();
             RoomClient.getInstance().getResponseSubject().subscribe(response -> {
                 if (response instanceof final GetHandResponse res) {
                     emitter.onSuccess(ItemDTO.toEntity(res.hand));
                 }
             });
+            RoomClient.getInstance().getHand();
         });
     }
 
@@ -34,24 +34,24 @@ public class HandRepositoryImpl implements HandRepository {
     @Override
     public Single<ArrayList<ItemEntity>> drop(ItemEntity item) {
         return Single.create(emitter -> {
-            RoomClient.getInstance().dropCard(item.getName());
             emitter.setDisposable(RoomClient.getInstance().getResponseSubject().subscribe(response -> {
                 if (response instanceof final DropCardResponse dropCardResponse) {
                     emitter.onSuccess(ItemDTO.toEntity(dropCardResponse.hand));
                 }
             }));
+            RoomClient.getInstance().dropCard(item.getName());
         });
     }
 
     @Override
     public Completable dropAll() {
         return Completable.create(emitter -> {
-            RoomClient.getInstance().dropAllCards();
             emitter.setDisposable(RoomClient.getInstance().getResponseSubject().subscribe(response -> {
                 if (response instanceof DropAllCardsReponse) {
                     emitter.onComplete();
                 }
             }));
+            RoomClient.getInstance().dropAllCards();
         });
     }
 }
