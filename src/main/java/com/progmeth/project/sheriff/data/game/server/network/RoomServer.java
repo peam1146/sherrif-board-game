@@ -10,10 +10,7 @@ import com.progmeth.project.sheriff.data.game.models.base.Legal;
 import com.progmeth.project.sheriff.data.game.server.controller.GameRoomController;
 import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
 import com.progmeth.project.sheriff.data.game.server.models.request.*;
-import com.progmeth.project.sheriff.data.game.server.models.response.GetHandResponse;
-import com.progmeth.project.sheriff.data.game.server.models.response.GetPlayersResponse;
-import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
-import com.progmeth.project.sheriff.data.game.server.models.response.StartGameResponse;
+import com.progmeth.project.sheriff.data.game.server.models.response.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,7 +39,7 @@ public class RoomServer {
         @Override
         public void received(Connection connection, Object object) {
             if (!(object instanceof Request)) return;
-            if (object instanceof final StartGameRequest req) {
+            if (object instanceof  StartGameRequest ) {
                 System.out.println("Received start game request");
                 gameRoomController = gameControllerBuilder.build();
                 connection.sendTCP(new StartGameResponse.Builder().setSuccess().build());
@@ -75,12 +72,20 @@ public class RoomServer {
                 return;
             }
 
-            if (object instanceof final GetPlayersRequest req) {
+            if (object instanceof GetPlayersRequest) {
                 System.out.println("Received get players request");
                 final ArrayList<String> players = gameControllerBuilder.getPlayerNames();
                 connection.sendTCP(new GetPlayersResponse.Builder().players(players).build());
                 return;
             }
+
+            if (object instanceof final DropCardRequest req) {
+                System.out.println("Received drop card request");
+                gameRoomController.playerDropAll(req.playerID);
+                connection.sendTCP(new DropAllCardsReponse());
+                return;
+            }
+
 
         }
     }

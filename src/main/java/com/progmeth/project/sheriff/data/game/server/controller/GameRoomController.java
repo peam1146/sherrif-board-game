@@ -79,6 +79,15 @@ public class GameRoomController {
         markets.get(player).add(i);
     }
 
+    public void playerDropAll(int player) {
+        if (player != getCurrentSheriff()) return;
+        for (Item i : hands.get(player).getItems()) {
+            final int pos = new Random().nextInt(2);
+            droppedDecks[pos].add(i);
+        }
+        hands.get(player).getItems().clear();
+    }
+
     public static class GameControllerBuilder {
         private final ArrayList<String> playerNames = new ArrayList<>();
 

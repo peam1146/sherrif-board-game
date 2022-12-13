@@ -4,10 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.progmeth.project.sheriff.data.game.server.models.request.GetHandRequest;
-import com.progmeth.project.sheriff.data.game.server.models.request.GetPlayersRequest;
-import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
-import com.progmeth.project.sheriff.data.game.server.models.request.StartGameRequest;
+import com.progmeth.project.sheriff.data.game.server.models.request.*;
 import com.progmeth.project.sheriff.data.game.server.models.response.*;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
@@ -96,13 +93,13 @@ public class RoomClient {
     public void setup() {
         start();
         try {
-            connecct("localhost", 3000);
+            connect("localhost", 3000);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void connecct(String host, int tcpPort) throws IOException {
+    public void connect(String host, int tcpPort) throws IOException {
         client.connect(5000, host, tcpPort);
     }
 
@@ -133,6 +130,11 @@ public class RoomClient {
 
     public void getHand(int playerID) {
         final GetHandRequest request = new GetHandRequest.Builder().setPlayerID(playerID).build();
+        client.sendTCP(request);
+    }
+
+    public void dropAllCards(int playerID) {
+        final DropAllCardsRequest request = new DropAllCardsRequest.Builder().setPlayerID(playerID).build();
         client.sendTCP(request);
     }
 
