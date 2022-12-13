@@ -64,7 +64,7 @@ public class Main extends Application {
             @Override
             protected Node builder(RouteState state) {
                 return switch (state) {
-                    case HOME -> demoView;
+                    case HOME -> homeView;
                     case LOUGE -> lougeView;
                     case GAME_PLAYER -> playerView;
                     case GAME_SHERIFF -> sheriffView;
