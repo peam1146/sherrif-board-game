@@ -24,7 +24,7 @@ public abstract class StateWithEventController<E, S> extends StateController<S> 
 
     @Override
     public void dispose() {
-        eventSub.dispose();
         super.dispose();
+        eventSub.dispose();
     }
 }
