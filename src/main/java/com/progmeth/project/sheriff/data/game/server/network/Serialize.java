@@ -2,16 +2,11 @@ package com.progmeth.project.sheriff.data.game.server.network;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
-import com.progmeth.project.sheriff.data.game.server.models.request.GetDrawFromDeckRequest;
-import com.progmeth.project.sheriff.data.game.server.models.request.GetHandRequest;
-import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
-import com.progmeth.project.sheriff.data.game.server.models.request.StartGameRequest;
-import com.progmeth.project.sheriff.data.game.server.models.response.GetDrawFromDeckResponse;
-import com.progmeth.project.sheriff.data.game.server.models.response.GetHandResponse;
-import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
-import com.progmeth.project.sheriff.data.game.server.models.response.StartGameResponse;
+import com.progmeth.project.sheriff.data.game.server.models.request.*;
+import com.progmeth.project.sheriff.data.game.server.models.response.*;
 import com.progmeth.project.sheriff.data.game.server.models.type.Type;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Serialize {
@@ -19,6 +14,9 @@ public class Serialize {
         //TODO: Add more classes here
         List<Class> classes = List.of(
                 ItemDTO.class,
+                ArrayList.class,
+                GetPlayersRequest.class,
+                GetPlayersResponse.class,
                 GetDrawFromDeckRequest.class,
                 GetDrawFromDeckResponse.class,
                 StartGameRequest.class,

@@ -11,24 +11,24 @@ import java.util.Random;
 
 public class GameRoomController {
     private final int playerCount;
-    private final String[] playerNames;
-    private final Hand[] hands;
+    private final ArrayList<String> playerNames;
+    private final ArrayList<Hand> hands;
     private final MainCardDeck deck;
     private final DroppedDeck[] droppedDecks;
-    private final Market[] markets;
+    private final ArrayList<Market> markets;
 
     private int turn = 0;
 
     private int timer = 0;
     private final int maxTimer = 60;
 
-    public GameRoomController(int playerCount, String[] playerNames) {
+    public GameRoomController(int playerCount, ArrayList<String> playerNames) {
         this.playerCount = playerCount;
         this.playerNames = playerNames;
-        this.hands = new Hand[playerCount];
+        this.hands = new ArrayList<>();
         this.deck = new MainCardDeck();
         this.droppedDecks = new DroppedDeck[2];
-        this.markets = new Market[playerCount];
+        this.markets = new ArrayList<>();
     }
 
     public int getCurrentSheriff() {
@@ -40,11 +40,11 @@ public class GameRoomController {
     }
 
     public Hand getHand(int player) {
-        return hands[player];
+        return hands.get(player);
     }
 
     public Market getMarket(int player) {
-        return markets[player];
+        return markets.get(player);
     }
 
     public DroppedDeck getDroppedDeck(DroppedDeckPos pos) {
@@ -54,20 +54,20 @@ public class GameRoomController {
     public Item playerDraw(int player) {
         if (player != getCurrentSheriff()) return null;
         Item i = deck.draw();
-        hands[player].add(i);
+        hands.get(player).add(i);
         return i;
     }
 
     public Item playerDrawFromDropped(int player, DroppedDeckPos pos) {
         if (player != getCurrentSheriff()) return null;
         Item i = droppedDecks[pos.ordinal()].draw();
-        hands[player].add(i);
+        hands.get(player).add(i);
         return i;
     }
 
     public Item playerDrop(int player, Item i) {
         if (player != getCurrentSheriff()) return null;
-        hands[player].remove(i);
+        hands.get(player).remove(i);
         final int pos = new Random().nextInt(2);
         droppedDecks[pos].add(i);
         return i;
@@ -75,8 +75,8 @@ public class GameRoomController {
 
     public void placeItem(int player, Item i) {
         if (player != getCurrentSheriff()) return;
-        hands[player].remove(i);
-        markets[player].add(i);
+        hands.get(player).remove(i);
+        markets.get(player).add(i);
     }
 
     public static class GameControllerBuilder {
@@ -88,9 +88,12 @@ public class GameRoomController {
             return this;
         }
 
+        public ArrayList<String> getPlayerNames() {
+            return playerNames;
+        }
+
         public GameRoomController build() {
-            final var arr = playerNames.toArray(new String[0]);
-            return new GameRoomController(playerNames.size(), arr);
+            return new GameRoomController(playerNames.size(), playerNames);
         }
     }
 }

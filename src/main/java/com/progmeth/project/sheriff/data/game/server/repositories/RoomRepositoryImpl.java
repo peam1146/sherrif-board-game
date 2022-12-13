@@ -1,5 +1,7 @@
 package com.progmeth.project.sheriff.data.game.server.repositories;
 
+import com.progmeth.project.sheriff.data.game.server.models.response.GetPlayersResponse;
+import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
 import com.progmeth.project.sheriff.data.game.server.network.RoomClient;
 import com.progmeth.project.sheriff.data.game.server.network.RoomServer;
 import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
@@ -7,12 +9,14 @@ import com.progmeth.project.sheriff.data.game.server.models.response.Response;
 import com.progmeth.project.sheriff.data.game.server.models.response.StartGameResponse;
 import com.progmeth.project.sheriff.domain.game.repositories.RoomRepository;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
-public class RoomRepositoryServerImpl implements RoomRepository {
+public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public Completable startGame() {
         return Completable.create(emitter -> {
@@ -27,15 +31,30 @@ public class RoomRepositoryServerImpl implements RoomRepository {
     }
 
     @Override
-    public Completable joinGame(String room) {
+    public Single<ArrayList<String>> getPlayers() {
+        return Single.create(emitter -> {
+            RoomClient.getInstance().getPlayers();
+            final var dispose = RoomClient.getInstance().getResponseSubject().subscribe(response -> {
+                if (response instanceof final GetPlayersResponse getPlayersResponse) {
+                    emitter.onSuccess(getPlayersResponse.players);
+                }
+            });
+            emitter.setDisposable(dispose);
+        });
+    }
+
+    @Override
+    public Single<ArrayList<String>> joinGame(String host, String name) {
         if (!RoomClient.getInstance().getRunning())
             RoomClient.getInstance().setup();
-        return Completable.create(emitter -> {
-            RoomClient.getInstance().joinRoom(room);
+        return Single.create(emitter -> {
+            RoomClient.getInstance().joinRoom(name);
             final PublishSubject<Response> responseSubject = RoomClient.getInstance().getResponseSubject();
             final var disposable = responseSubject.subscribe(response -> {
                 if (response.getTopic().equals(JoinRoomRequest.requestTopic)) {
-                    emitter.onComplete();
+                    final JoinRoomResponse joinRoomResponse = (JoinRoomResponse) response;
+                    RoomClient.getInstance().setPlayerID(joinRoomResponse.playerID);
+                    emitter.onSuccess(joinRoomResponse.playerNames);
                 }
             });
             emitter.setDisposable(disposable);
