@@ -65,12 +65,19 @@ public class GameRoomController {
         return i;
     }
 
-    public Item playerDrop(int player, Item i) {
+    public Item playerDrop(int player, String cardName) {
+        Item card = null;
         if (player != getCurrentSheriff()) return null;
-        hands.get(player).remove(i);
+        for (var i : hands.get(player).getItems()) {
+            if (i.getName().equals(cardName)) {
+                card = i;
+                hands.get(player).remove(i);
+            }
+        }
+        if (card == null) return null;
         final int pos = new Random().nextInt(2);
-        droppedDecks[pos].add(i);
-        return i;
+        droppedDecks[pos].add(card);
+        return card;
     }
 
     public void placeItem(int player, Item i) {

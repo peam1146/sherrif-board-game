@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.io.IOException;
 
 public class RoomClient {
-    private int PlayerID;
+    private int playerID;
     private Client client;
     private boolean isRunning = false;
     private static RoomClient clientInstance;
@@ -48,6 +48,12 @@ public class RoomClient {
 
             if (object instanceof GetPlayersResponse) {
                 System.out.println("Received GetPlayersResponse");
+                clientInstance.responseSubject.onNext((Response) object);
+                return;
+            }
+
+            if (object instanceof DropCardResponse) {
+                System.out.println("Received DropCardResponse");
                 clientInstance.responseSubject.onNext((Response) object);
                 return;
             }
@@ -125,16 +131,21 @@ public class RoomClient {
     }
 
     public void setPlayerID(int playerID) {
-        PlayerID = playerID;
+        this.playerID = playerID;
     }
 
-    public void getHand(int playerID) {
+    public void getHand() {
         final GetHandRequest request = new GetHandRequest.Builder().setPlayerID(playerID).build();
         client.sendTCP(request);
     }
 
-    public void dropAllCards(int playerID) {
+    public void dropAllCards() {
         final DropAllCardsRequest request = new DropAllCardsRequest.Builder().setPlayerID(playerID).build();
+        client.sendTCP(request);
+    }
+
+    public void dropCard(String cardName) {
+        final DropCardRequest request = new DropCardRequest.Builder().setPlayerID(playerID).setCardName(cardName).build();
         client.sendTCP(request);
     }
 

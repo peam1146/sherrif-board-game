@@ -51,5 +51,50 @@ public class ItemEntity {
     public String getImgURL() {
         return imgURL;
     }
+
+    public static class Builder {
+
+        private String imgURL;
+        private int price;
+        private String name;
+        private boolean isLegal = false;
+        private int timeCost = 0;
+        private int fine = 0;
+
+        public Builder setImgURL(String imgURL) {
+            this.imgURL = imgURL;
+            return this;
+        }
+
+        public Builder setPrice(int price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setIsLegal(boolean isLegal) {
+            this.isLegal = isLegal;
+            return this;
+        }
+
+        public Builder setTimeCost(int timeCost) {
+            this.timeCost = timeCost;
+            return this;
+        }
+
+        public Builder setFine(int fine) {
+            this.fine = fine;
+            return this;
+        }
+
+        public ItemEntity build() {
+            ItemEntity entity = new ItemEntity(price, name, isLegal, timeCost, fine, imgURL);
+            return entity;
+        }
+    }
 }
 

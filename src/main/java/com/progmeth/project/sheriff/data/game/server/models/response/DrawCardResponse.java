@@ -4,11 +4,11 @@ import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
 
 import java.util.ArrayList;
 
-public class DropCardResponse extends Response {
-    public final static String responseTopic = "dropCard";
+public class DrawCardResponse extends Response {
+    public static final String responseTopic = "drawCard";
     public ArrayList<ItemDTO> hand;
 
-    public DropCardResponse() {
+    public DrawCardResponse() {
         super(responseTopic);
     }
 
@@ -20,8 +20,8 @@ public class DropCardResponse extends Response {
             return this;
         }
 
-        public DropCardResponse build() {
-            DropCardResponse res = new DropCardResponse();
+        public DrawCardResponse build() {
+            DrawCardResponse res = new DrawCardResponse();
             res.hand = hand;
             return res;
         }

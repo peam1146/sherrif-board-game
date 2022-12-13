@@ -4,9 +4,6 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.progmeth.project.sheriff.data.game.models.base.Illegal;
-import com.progmeth.project.sheriff.data.game.models.base.Item;
-import com.progmeth.project.sheriff.data.game.models.base.Legal;
 import com.progmeth.project.sheriff.data.game.server.controller.GameRoomController;
 import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
 import com.progmeth.project.sheriff.data.game.server.models.request.*;
@@ -57,16 +54,7 @@ public class RoomServer {
             if (object instanceof final GetHandRequest req) {
                 System.out.println("Received get hand request");
                 final var hand = gameRoomController.getHand(req.playerID);
-                final ArrayList<ItemDTO> handDTO = new ArrayList<>();
-                for (Item item : hand.getItems()) {
-                    int fine = 0;
-                    int timeCost = 0;
-                    if (item instanceof final Legal legal)
-                        fine = legal.getTimeCost();
-                    if (item instanceof final Illegal illegal)
-                        fine = illegal.getFine();
-                    handDTO.add(new ItemDTO.Builder().setFine(fine).setName(item.getName()).setPrice(item.getPrice()).setTimeCost(timeCost).build());
-                }
+                final ArrayList<ItemDTO> handDTO = gameRoomController.getHand(req.playerID).getItemsDTO();
                 GetHandResponse resp = new GetHandResponse.Builder().setHand(handDTO).build();
                 connection.sendTCP(resp);
                 return;
@@ -79,11 +67,24 @@ public class RoomServer {
                 return;
             }
 
-            if (object instanceof final DropCardRequest req) {
+            if (object instanceof final DropAllCardsRequest req) {
                 System.out.println("Received drop card request");
                 gameRoomController.playerDropAll(req.playerID);
                 connection.sendTCP(new DropAllCardsReponse());
                 return;
+            }
+
+            if (object instanceof final DropCardRequest req) {
+                System.out.println("Received drop card request");
+                final var r = gameRoomController.playerDrop(req.playerID, req.cardName);
+
+                if (r == null) {
+                    connection.sendTCP(new DropCardResponse());
+                    return;
+                }
+
+                final ArrayList<ItemDTO> handDTO = gameRoomController.getHand(req.playerID).getItemsDTO();
+                connection.sendTCP(new DropCardResponse.Builder().setHand(handDTO));
             }
 
 
