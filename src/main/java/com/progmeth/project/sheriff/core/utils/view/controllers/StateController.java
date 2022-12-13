@@ -3,10 +3,13 @@ package com.progmeth.project.sheriff.core.utils.view.controllers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
+import java.util.ArrayList;
+
 public abstract class StateController<S> {
     private final BehaviorSubject<S> stateStream;
     private final Disposable stateSub;
     private S state;
+    private final ArrayList<Disposable> disposables = new ArrayList<>();
     public StateController(S initialState) {
         stateStream = BehaviorSubject.create();
         this.stateSub = stateStream.subscribe(this::setCurrentState);
@@ -24,7 +27,13 @@ public abstract class StateController<S> {
     public S getState() {
         return state;
     }
+    public void addDisposable(Disposable disposable) {
+        disposables.add(disposable);
+    }
     public void dispose() {
+        for (Disposable d : disposables) {
+            d.dispose();
+        }
         stateSub.dispose();
     }
 }

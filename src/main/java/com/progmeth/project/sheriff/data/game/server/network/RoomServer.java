@@ -5,14 +5,13 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.progmeth.project.sheriff.data.game.models.base.Illegal;
+import com.progmeth.project.sheriff.data.game.models.base.Item;
 import com.progmeth.project.sheriff.data.game.models.base.Legal;
 import com.progmeth.project.sheriff.data.game.server.controller.GameRoomController;
 import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
-import com.progmeth.project.sheriff.data.game.server.models.request.GetHandRequest;
-import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
-import com.progmeth.project.sheriff.data.game.server.models.request.Request;
-import com.progmeth.project.sheriff.data.game.server.models.request.StartGameRequest;
+import com.progmeth.project.sheriff.data.game.server.models.request.*;
 import com.progmeth.project.sheriff.data.game.server.models.response.GetHandResponse;
+import com.progmeth.project.sheriff.data.game.server.models.response.GetPlayersResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.StartGameResponse;
 
@@ -52,8 +51,9 @@ public class RoomServer {
 
             if (object instanceof final JoinRoomRequest req) {
                 System.out.println("Received join room request");
+                System.out.println("Player ID: " + req.playerName);
                 gameControllerBuilder.addPlayer(req.playerName);
-                connection.sendTCP(new JoinRoomResponse.Builder().setPlayerName(req.playerName).setPlayerID(1).build());
+                connection.sendTCP(new JoinRoomResponse.Builder().setPlayerName(req.playerName).setPlayerNames(gameControllerBuilder.getPlayerNames()).setPlayerID(1).build());
                 return;
             }
 
@@ -61,7 +61,7 @@ public class RoomServer {
                 System.out.println("Received get hand request");
                 final var hand = gameRoomController.getHand(req.playerID);
                 final ArrayList<ItemDTO> handDTO = new ArrayList<>();
-                for (var item : hand.getItems()) {
+                for (Item item : hand.getItems()) {
                     int fine = 0;
                     int timeCost = 0;
                     if (item instanceof final Legal legal)
@@ -72,6 +72,14 @@ public class RoomServer {
                 }
                 GetHandResponse resp = new GetHandResponse.Builder().setHand(handDTO).build();
                 connection.sendTCP(resp);
+                return;
+            }
+
+            if (object instanceof final GetPlayersRequest req) {
+                System.out.println("Received get players request");
+                final ArrayList<String> players = gameControllerBuilder.getPlayerNames();
+                connection.sendTCP(new GetPlayersResponse.Builder().players(players).build());
+                return;
             }
 
         }

@@ -4,6 +4,8 @@ import com.progmeth.project.sheriff.core.controllers.main.MainController;
 import com.progmeth.project.sheriff.core.controllers.router.RouterController;
 import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
 import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
+import com.progmeth.project.sheriff.data.game.server.network.RoomClient;
+import com.progmeth.project.sheriff.data.game.server.network.RoomServer;
 import com.progmeth.project.sheriff.data.game.server.repositories.RoomRepositoryImpl;
 import com.progmeth.project.sheriff.presentors.demo.controllers.DemoController;
 import com.progmeth.project.sheriff.presentors.demo.views.DemoView;
@@ -24,6 +26,14 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+    private final RouterController routerController = new RouterController();
+    private final MainController mainController = new MainController(routerController);
+    private final HomeController homeController = new HomeController(mainController);
+    private final LougeController lougeController = new LougeController(mainController);
+    private final PlayerController playerController = new PlayerController(mainController);
+    private final SheriffController sheriffController = new SheriffController(mainController);
+    private final GameController gameController = new GameController();
+    private final DemoController demoController = new DemoController(new RoomRepositoryImpl());
     private void setUpStage(Stage primaryStage) {
         primaryStage.setTitle("Sheriff");
         primaryStage.setMaxHeight(600);
@@ -36,35 +46,21 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        final RouterController routerController = new RouterController();
-        final MainController mainController = new MainController(routerController);
-
-        final HomeController controller = new HomeController(mainController);
-        final HomeView homeView = new HomeView(controller);
-
-        final GameController gameController = new GameController();
+        final HomeView homeView = new HomeView(homeController);
         final GameView gameView = new GameView(gameController);
-
-        final LougeController lougeController = new LougeController(mainController);
         final LougeView lougeView = new LougeView(lougeController);
-
-        final PlayerController playerController = new PlayerController(mainController);
         final PlayerView playerView = new PlayerView(playerController);
 
-
         //demo
-        final RoomRepositoryImpl roomRepo = new RoomRepositoryImpl();
-        final DemoController demoController = new DemoController(roomRepo);
         final DemoView demoView = new DemoView(demoController);
 
-        final SheriffController sheriffController = new SheriffController(mainController);
         final SheriffView sheriffView = new SheriffView(sheriffController);
 
         final StreamBuilder<RouteState, RouterController> root = new StreamBuilder<>(routerController) {
             @Override
             protected Node builder(RouteState state) {
                 return switch (state) {
-                    case HOME -> homeView;
+                    case HOME -> demoView;
                     case LOUGE -> lougeView;
                     case GAME_PLAYER -> playerView;
                     case GAME_SHERIFF -> sheriffView;
@@ -80,9 +76,15 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         System.out.println("Stopping");
-    }
-
-    public static void main(String[] args) {
-        launch(args);
+        homeController.dispose();
+        lougeController.dispose();
+        playerController.dispose();
+        sheriffController.dispose();
+        gameController.dispose();
+        demoController.dispose();
+        RoomServer.getInstance().close();
+        RoomClient.getInstance().stop();
+        super.stop();
+        System.exit(0);
     }
 }

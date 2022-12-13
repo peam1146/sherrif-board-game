@@ -88,6 +88,10 @@ public class GameRoomController {
             return this;
         }
 
+        public ArrayList<String> getPlayerNames() {
+            return playerNames;
+        }
+
         public GameRoomController build() {
             return new GameRoomController(playerNames.size(), playerNames);
         }

@@ -12,7 +12,7 @@ public class HandRepositoryImpl implements HandRepository {
 
     @Override
     public Single<ArrayList<ItemEntity>> getHand() {
-
+        return null;
     }
 
     @Override
