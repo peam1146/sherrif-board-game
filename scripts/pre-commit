@@ -1,0 +1,6 @@
+!#bin/sh
+
+# Echo running pre-commit hook
+echo "Running pre-commit hook"
+./gradlew javadocs
+echo "Done pre-commit hook"
