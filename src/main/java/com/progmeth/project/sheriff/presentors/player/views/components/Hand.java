@@ -6,13 +6,23 @@ import com.progmeth.project.sheriff.presentors.common.components.Card;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 
+/**
+ * Hand component
+ */
 public class Hand extends HBox {
+    /**
+     * Constructor
+     */
     public Hand() {
         super.setSpacing(10);
         super.setAlignment(Pos.CENTER);
         super.setMinHeight(200);
     }
 
+    /**
+     * add item
+     * @param items items
+     */
     public void setItem(ItemEntity[] items) {
         for (int i = 0; i < 6; i++) {
             ItemEntity itemEntity = new ItemEntity(4,"test", false, 4, 10, ItemImg.CHICKEN);

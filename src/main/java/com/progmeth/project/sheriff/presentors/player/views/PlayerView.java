@@ -6,8 +6,19 @@ import com.progmeth.project.sheriff.presentors.player.views.components.SideBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
+/**
+ * Player view
+ */
 public class PlayerView extends BorderPane {
+    /**
+     * controller
+     */
     private final PlayerController controller;
+
+    /**
+     * Constructor
+     * @param controller controller
+     */
     public PlayerView(PlayerController controller){
         this.controller = controller;
         super.setStyle("-fx-background-color: #E6DCC2;");

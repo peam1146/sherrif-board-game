@@ -8,8 +8,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
 
+/**
+ * player board
+ */
 public class PlayerBoard extends BorderPane {
+    /**
+     * player board image
+     */
     private final static String IMG_PLAYER_BOARD = PlayerBoard.class.getResource("/com/progmeth/project/sheriff/images/player_board.png").toString();
+
+    /**
+     * Constructor
+     */
     public PlayerBoard(){
         super.setMinWidth(227);
         super.setMinHeight(310);

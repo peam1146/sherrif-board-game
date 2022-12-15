@@ -12,8 +12,14 @@ import io.reactivex.rxjava3.core.Single;
 
 import java.util.ArrayList;
 
+/**
+ * Hand repository implementation
+ */
 public class HandRepositoryImpl implements HandRepository {
 
+    /*
+     * Get hand from server
+     */
     @Override
     public Single<ArrayList<ItemEntity>> getHand() {
         return Single.create(emitter -> {
@@ -26,11 +32,23 @@ public class HandRepositoryImpl implements HandRepository {
         });
     }
 
+    /**
+     * Constructor
+     */
+    public HandRepositoryImpl() {
+    }
+
+    /*
+     * Draw card from deck
+     */
     @Override
     public Single<ArrayList<ItemEntity>> draw() {
         return null;
     }
 
+    /*
+     * Drop card from hand
+     */
     @Override
     public Single<ArrayList<ItemEntity>> drop(ItemEntity item) {
         return Single.create(emitter -> {
@@ -43,6 +61,9 @@ public class HandRepositoryImpl implements HandRepository {
         });
     }
 
+    /*
+     * Drop all cards from hand
+     */
     @Override
     public Completable dropAll() {
         return Completable.create(emitter -> {

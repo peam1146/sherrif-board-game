@@ -12,7 +12,13 @@ import com.progmeth.project.sheriff.data.game.models.derive.legal.Bread;
 
 import java.util.Random;
 
+/**
+ * Main card deck
+ */
 public class MainCardDeck {
+    /**
+     * card list
+     */
     private final Item[] items = new Item[]{
             Apple.getInstance(),
             Bread.getInstance(),
@@ -24,8 +30,19 @@ public class MainCardDeck {
             RoyalRooster.getInstance(),
     };
 
+    /**
+     * draw card from deck
+     *
+     * @return card
+     */
     public Item draw() {
         int index = new Random().nextInt(items.length);
         return items[index];
+    }
+
+    /**
+     * Constructor
+     */
+    public MainCardDeck() {
     }
 }

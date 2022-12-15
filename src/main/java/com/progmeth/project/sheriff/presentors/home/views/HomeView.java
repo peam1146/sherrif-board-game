@@ -17,12 +17,28 @@ import javafx.scene.text.Font;
 
 import static javafx.geometry.Pos.CENTER;
 
+/**
+ * Home view
+ */
 public class HomeView extends StackPane {
+    /**
+     * background img path
+     */
     private final static String BG_IMG = HomeView.class.getResource("/com/progmeth/project/sheriff/images/bg.png").toString();
+    /**
+     * start button
+     */
     private final Button startButton = new Button("Start");
 
+    /**
+     * controller
+     */
     private final HomeController controller;
 
+    /**
+     * Constructor
+     * @param controller controller
+     */
     public HomeView(HomeController controller) {
         this.controller = controller;
         startButton.setFont(new Font(24));

@@ -1,10 +1,16 @@
 package com.progmeth.project.sheriff.presentors.sheriff.views.components;
 
-import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Inspect
+ */
 public class Inspect extends StackPane {
+
+    /**
+     * Constructor
+     */
     public Inspect(){
         VBox playerCardContainer = new VBox();
         CardPocket pocket1 = new CardPocket();

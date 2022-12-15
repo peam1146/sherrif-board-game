@@ -25,15 +25,53 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
+/**
+ * Main class
+ */
 public class Main extends Application {
+    /**
+     * router controller
+     */
     private final RouterController routerController = new RouterController();
+    /**
+     * main controller
+     */
     private final MainController mainController = new MainController(routerController);
+    /**
+     * home controller
+     */
     private final HomeController homeController = new HomeController(mainController);
+    /**
+     * louge controller
+     */
     private final LougeController lougeController = new LougeController(mainController);
+    /**
+     * player controller
+     */
     private final PlayerController playerController = new PlayerController(mainController);
+    /**
+     * sheriff controller
+     */
     private final SheriffController sheriffController = new SheriffController(mainController);
+    /**
+     * game controller
+     */
     private final GameController gameController = new GameController();
+    /**
+     * demo controller
+     */
     private final DemoController demoController = new DemoController(new RoomRepositoryImpl());
+
+    /**
+     * Constructor
+     */
+    public Main() {
+    }
+
+    /**
+     * set up
+     * @param primaryStage primary stage
+     */
     private void setUpStage(Stage primaryStage) {
         primaryStage.setTitle("Sheriff");
         primaryStage.setMaxHeight(600);

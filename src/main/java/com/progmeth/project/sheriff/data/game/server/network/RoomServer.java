@@ -12,15 +12,40 @@ import com.progmeth.project.sheriff.data.game.server.models.response.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Room server
+ */
 public class RoomServer {
+
+    /**
+     * room name
+     */
     private String roomName;
+    /**
+     * is server running
+     */
     private boolean isRunning = false;
+    /**
+     * network server
+     */
     private final Server server;
+    /**
+     * instance of this class
+     */
     private static RoomServer serverInstance;
+    /**
+     * game builder
+     */
     private GameRoomController.GameControllerBuilder gameControllerBuilder;
 
+    /**
+     * game controller
+     */
     private GameRoomController gameRoomController;
 
+    /**
+     * Listener for server
+     */
     private class ServerListener extends Listener {
 
         @Override
@@ -91,10 +116,18 @@ public class RoomServer {
         }
     }
 
+    /**
+     * Constructor
+     */
     private RoomServer() {
         server = new Server();
     }
 
+    /**
+     * get instance of this class
+     *
+     * @return instance
+     */
     public static RoomServer getInstance() {
         if (serverInstance == null) {
             serverInstance = new RoomServer();
@@ -102,11 +135,17 @@ public class RoomServer {
         return serverInstance;
     }
 
+    /**
+     * register classes
+     */
     private void register() {
         final Kryo kryo = server.getKryo();
         Serialize.register(kryo);
     }
 
+    /**
+     * start server
+     */
     public void start() {
         gameControllerBuilder = new GameRoomController.GameControllerBuilder();
         server.start();
@@ -115,28 +154,57 @@ public class RoomServer {
     }
 
 
+    /**
+     * bind server to port
+     *
+     * @param tcpPort port
+     * @throws IOException if port is already in use
+     */
     public void bind(int tcpPort) throws IOException {
         server.bind(tcpPort);
     }
 
+    /**
+     * stop server
+     */
     public void close() {
         setRunning(false);
         server.close();
         server.stop();
     }
 
+    /**
+     * get room name
+     *
+     * @return room name
+     */
     public String getRoomName() {
         return roomName;
     }
 
+    /**
+     * is server running
+     *
+     * @return is server running
+     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * set room name
+     *
+     * @param roomName room name
+     */
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
 
+    /**
+     * set is server running
+     *
+     * @param running is server running
+     */
     public void setRunning(boolean running) {
         isRunning = running;
     }

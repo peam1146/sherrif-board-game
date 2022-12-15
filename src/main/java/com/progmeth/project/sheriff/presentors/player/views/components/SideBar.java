@@ -10,7 +10,13 @@ package com.progmeth.project.sheriff.presentors.player.views.components;
         import javafx.scene.paint.Color;
         import javafx.scene.text.Text;
 
+/**
+ * Side bar
+ */
 public class SideBar extends VBox {
+    /**
+     * Constructor
+     */
     public SideBar() {
         super.setStyle("-fx-background-color: #603A33;");
         super.setMinWidth(150);

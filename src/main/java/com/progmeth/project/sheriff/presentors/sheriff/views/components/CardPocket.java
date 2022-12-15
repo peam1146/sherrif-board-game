@@ -1,7 +1,6 @@
 package com.progmeth.project.sheriff.presentors.sheriff.views.components;
 
 import com.progmeth.project.sheriff.presentors.common.GameFont;
-import com.progmeth.project.sheriff.presentors.player.views.components.CardSlot;
 import com.progmeth.project.sheriff.presentors.player.views.components.Money;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,9 +9,24 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/**
+ * Card pocket component
+ */
 public class CardPocket extends StackPane {
+
+    /**
+     * image path
+     */
     private final static String IMG_CARD_POCKET = CardPocket.class.getResource("/com/progmeth/project/sheriff/images/card_back_pocket.png").toString();
+
+    /**
+     * name text
+     */
     private Text name;
+
+    /**
+     * Constructor
+     */
     public CardPocket(){
         setAlignment(Pos.CENTER_LEFT);
         ImageView cardPocket = new ImageView(IMG_CARD_POCKET);
@@ -44,6 +58,10 @@ public class CardPocket extends StackPane {
 
     }
 
+    /**
+     * Set name
+     * @param name name
+     */
     public void setName(String name) {
         this.name.setText(name);
     }
