@@ -84,5 +84,4 @@ task installLocalGitHook(type: Copy) {
 }
 
 
-// test hook
 build.dependsOn installLocalGitHook
