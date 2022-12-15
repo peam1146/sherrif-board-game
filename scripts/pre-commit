@@ -2,5 +2,5 @@
 
 # Echo running pre-commit hook
 echo "Running pre-commit hook"
-./gradlew javadocs
+./gradlew javadoc
 echo "Done pre-commit hook"
