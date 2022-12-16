@@ -1,6 +1,7 @@
 package com.progmeth.project.sheriff.data.game.server.repositories;
 
 import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
+import com.progmeth.project.sheriff.data.game.server.models.response.DrawCardResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.DropAllCardsReponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.DropCardResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.GetHandResponse;
@@ -27,8 +28,15 @@ public class HandRepositoryImpl implements HandRepository {
     }
 
     @Override
-    public Single<ArrayList<ItemEntity>> draw() {
-        return null;
+    public Single<ArrayList<ItemEntity>> draw(int n) {
+        return Single.create(emitter -> {
+            RoomClient.getInstance().getResponseSubject().subscribe(response -> {
+                if (response instanceof final DrawCardResponse res) {
+                    emitter.onSuccess(ItemDTO.toEntity(res.hand));
+                }
+            });
+            RoomClient.getInstance().playerDraw(n);
+        });
     }
 
     @Override

@@ -32,15 +32,17 @@ public class LougeView extends StackPane {
 
         Background textfieldbackground = new Background(new BackgroundFill(Color.rgb(96,58,51), null, null));
         String textFieldStyle = "-fx-control-inner-background: #603A33;-fx-border-color: #21070B;-fx-border-width: 2px;-fx-prompt-text-fill: #FFFFFF;-fx-font-size: 16px;";
-        TextField ipfield = new TextField();
-        ipfield.setPromptText("Server IP");
-        ipfield.setMaxWidth(334);
-        ipfield.setPrefHeight(46);
-        ipfield.setTranslateY(-54);
-        ipfield.setBackground(textfieldbackground);
-        ipfield.setStyle(textFieldStyle);
+        TextField serverIPField = new TextField();
+        serverIPField.textProperty().addListener((observable, oldValue, newValue) -> controller.setIP(newValue));
+        serverIPField.setPromptText("Server IP");
+        serverIPField.setMaxWidth(334);
+        serverIPField.setPrefHeight(46);
+        serverIPField.setTranslateY(-54);
+        serverIPField.setBackground(textfieldbackground);
+        serverIPField.setStyle(textFieldStyle);
 
         TextField usernameField = new TextField();
+        usernameField.textProperty().addListener((observable, oldValue, newValue) -> controller.setUserName(newValue));
         usernameField.setPromptText("Username");
         usernameField.setMaxWidth(334);
         usernameField.setPrefHeight(46);
@@ -56,6 +58,6 @@ public class LougeView extends StackPane {
         joinButton.setTranslateX(167-44); //167 from 334/2 44 from 88/2
 
         joinButton.setOnMouseClicked(event -> controller.joinGame());
-        getChildren().addAll(bgImage,bgPlateImage, ipfield, usernameField,joinButton);
+        getChildren().addAll(bgImage,bgPlateImage, serverIPField, usernameField,joinButton);
     }
 }

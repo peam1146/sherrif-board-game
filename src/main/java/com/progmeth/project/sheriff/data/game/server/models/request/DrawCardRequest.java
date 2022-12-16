@@ -1,11 +1,11 @@
 package com.progmeth.project.sheriff.data.game.server.models.request;
 
-public class DrawCardRequeust extends Request {
+public class DrawCardRequest extends Request {
     public final static String requestTopic = "drawCard";
     public int playerID;
     public int amount;
 
-    public DrawCardRequeust() {
+    public DrawCardRequest() {
         super(requestTopic);
     }
 
@@ -23,8 +23,8 @@ public class DrawCardRequeust extends Request {
             return this;
         }
 
-        public DrawCardRequeust build() {
-            DrawCardRequeust req = new DrawCardRequeust();
+        public DrawCardRequest build() {
+            DrawCardRequest req = new DrawCardRequest();
             req.playerID = playerID;
             req.amount = amount;
             return req;

@@ -2,7 +2,7 @@ package com.progmeth.project.sheriff.domain.game.entity;
 
 public class ItemEntity {
 
-    final String imgURL;
+    String imgURL;
     final int price;
     final String name;
     final boolean isLegal;
@@ -51,6 +51,9 @@ public class ItemEntity {
     public String getImgURL() {
         return imgURL;
     }
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
 
     public static class Builder {
 
@@ -92,8 +95,7 @@ public class ItemEntity {
         }
 
         public ItemEntity build() {
-            ItemEntity entity = new ItemEntity(price, name, isLegal, timeCost, fine, imgURL);
-            return entity;
+            return new ItemEntity(price, name, isLegal, timeCost, fine, imgURL);
         }
     }
 }

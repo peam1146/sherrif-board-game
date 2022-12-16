@@ -2,6 +2,7 @@ package com.progmeth.project.sheriff.presentors.common.components;
 
 import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 import com.progmeth.project.sheriff.presentors.common.GameFont;
+import com.progmeth.project.sheriff.presentors.common.ItemImg;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -16,14 +17,18 @@ public class Card extends StackPane {
     protected int CARD_WIDTH = 107;
     protected int CARD_HEIGHT = 136;
 
-    private final ImageView bg;
-    private final ImageView img;
-    private final Text fine;
-    private final Text timeCost;
-    private final Text price;
+    private ImageView bg;
+    private ImageView img;
+    private Text fine;
+    private Text timeCost;
+    private Text price;
 
     public Card(ItemEntity itemEntity) {
-        this.item = itemEntity;
+        setItem(itemEntity);
+    }
+
+    public void setItem(ItemEntity item) {
+        this.item = item;
         super.setMinWidth(CARD_WIDTH);
         super.setMinHeight(CARD_HEIGHT);
         this.bg = new ImageView(item.isLegal() ? IMG_LEGAL_CARD : IMG_ILLEGAL_CARD);
@@ -61,11 +66,25 @@ public class Card extends StackPane {
         price.setTranslateX(24);
         price.setTranslateY(10);
 
-        this.img = new ImageView(item.getImgURL());
+        this.img = new ImageView(getURL(item.getName()));
         img.setPreserveRatio(true);
         img.setFitWidth(32);
         img.setTranslateY(-10);
         getChildren().add(img);
+    }
+//
+    private String getURL(String name){
+        return switch (name) {
+            case "Crossbow" -> ItemImg.CROSSBOW;
+            case "Dedder" -> ItemImg.DEDDER;
+            case "Mead" -> ItemImg.MEAD;
+            case "RoyalRooster" -> ItemImg.ROYALROOSTER;
+            case "Apple" -> ItemImg.APPLE;
+            case "Bread" -> ItemImg.BREAD;
+            case "Cheese" -> ItemImg.CHEESE;
+            case "Chicken" -> ItemImg.CHICKEN;
+            default -> ItemImg.CHICKEN;
+        };
     }
 
     public BackCard getBackCard() {

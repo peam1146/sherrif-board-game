@@ -14,7 +14,7 @@ public class GameRoomController {
     private final ArrayList<String> playerNames;
     private final ArrayList<Hand> hands;
     private final MainCardDeck deck;
-    private final DroppedDeck[] droppedDecks;
+    private final DroppedDeck[] droppedDecks = new DroppedDeck[2];
     private final ArrayList<Market> markets;
 
     private int turn = 0;
@@ -26,8 +26,15 @@ public class GameRoomController {
         this.playerCount = playerCount;
         this.playerNames = playerNames;
         this.hands = new ArrayList<>();
+        for (int i = 0; i < playerCount; i++) {
+            this.hands.add(new Hand());
+        }
         this.deck = new MainCardDeck();
-        this.droppedDecks = new DroppedDeck[2];
+//        this.droppedDecks = new DroppedDeck[2];
+
+        this.droppedDecks[DroppedDeckPos.TOP.ordinal()]= new DroppedDeck();
+        this.droppedDecks[DroppedDeckPos.BOTTOM.ordinal()] = new DroppedDeck();
+
         this.markets = new ArrayList<>();
     }
 
@@ -51,11 +58,13 @@ public class GameRoomController {
         return droppedDecks[pos.ordinal()];
     }
 
-    public Item playerDraw(int player) {
+    public Hand playerDraw(int player,int amount) {
         if (player != getCurrentSheriff()) return null;
-        Item i = deck.draw();
-        hands.get(player).add(i);
-        return i;
+        for (int i = 0; i < amount; i++) {
+            Item item = deck.draw();
+            hands.get(player).add(item);
+        }
+        return hands.get(player);
     }
 
     public Item playerDrawFromDropped(int player, DroppedDeckPos pos) {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface HandRepository {
     public Single<ArrayList<ItemEntity>> getHand();
 
-    public Single<ArrayList<ItemEntity>> draw();
+    Single<ArrayList<ItemEntity>> draw(int n);
 
     public Single<ArrayList<ItemEntity>> drop(ItemEntity item);
 

@@ -13,4 +13,8 @@ public interface RoomRepository {
     public Single<ArrayList<String>> getPlayers();
 
     public Completable createRoom(String room, int tcpPort);
+
+    public Single<Boolean> isGameStart();
+
+    public Single<Integer> getCurrentSheriff();
 }

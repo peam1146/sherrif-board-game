@@ -4,7 +4,11 @@ import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 import com.progmeth.project.sheriff.presentors.common.ItemImg;
 import com.progmeth.project.sheriff.presentors.common.components.Card;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.layout.HBox;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Hand extends HBox {
     public Hand() {
@@ -13,14 +17,16 @@ public class Hand extends HBox {
         super.setMinHeight(200);
     }
 
-    public void setItem(ItemEntity[] items) {
-        for (int i = 0; i < 6; i++) {
-            ItemEntity itemEntity = new ItemEntity(4,"test", false, 4, 10, ItemImg.CHICKEN);
+    public void setItem(ArrayList<ItemEntity> items) {
+        Collection<Node> cards = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            ItemEntity itemEntity = items.get(i);
             Card card = new Card(itemEntity);
             card.setSmallCard();
             card.setTranslateY(50);
-            super.getChildren().add(card);
+            cards.add(card);
         }
+        super.getChildren().setAll(cards);
     }
 
 }

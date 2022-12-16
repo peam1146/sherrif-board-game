@@ -5,4 +5,5 @@ public enum RouteState {
     LOUGE,
     GAME_SHERIFF,
     GAME_PLAYER,
+    WAITING_ROOM,
 }

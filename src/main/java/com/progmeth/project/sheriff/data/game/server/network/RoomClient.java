@@ -57,6 +57,26 @@ public class RoomClient {
                 clientInstance.responseSubject.onNext((Response) object);
                 return;
             }
+
+            if (object instanceof GetIsGameStartedResponse) {
+                System.out.println("Received GetIsGameStartedResponse");
+                clientInstance.responseSubject.onNext((Response) object);
+            }
+
+            if (object instanceof GetCurrentSheriffResponse) {
+                System.out.println("Received GetCurrentSheriffResponse");
+                clientInstance.responseSubject.onNext((Response) object);
+            }
+
+            if (object instanceof DrawCardResponse) {
+                System.out.println("Received DrawCardResponse");
+                clientInstance.responseSubject.onNext((Response) object);
+            }
+
+            if (object instanceof GetDroppedDeckTopResponse) {
+                System.out.println("Client Received GetDroppedDeckTopResponse");
+                clientInstance.responseSubject.onNext((Response) object);
+            }
         }
 
         @Override
@@ -89,6 +109,7 @@ public class RoomClient {
         return isRunning;
     }
 
+
     public void start() {
         setRunning(true);
         client.start();
@@ -96,10 +117,11 @@ public class RoomClient {
         register();
     }
 
-    public void setup() {
+    public void setup(String host) {
+        System.out.println("Setting up client");
         start();
         try {
-            connect("localhost", 3000);
+            connect(host, 3000);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +148,23 @@ public class RoomClient {
     }
 
     public void startGame() {
+        System.out.println("Start Game called in client");
         final StartGameRequest request = new StartGameRequest();
+        client.sendTCP(request);
+    }
+
+    public void isGameStarted() {
+        final GetIsGameStartedRequest request = new GetIsGameStartedRequest();
+        client.sendTCP(request);
+    }
+
+    public void getCurrentSheriff() {
+        final GetCurrentSheriffRequest request = new GetCurrentSheriffRequest();
+        client.sendTCP(request);
+    }
+
+    public void playerDraw(int n){
+        final DrawCardRequest request = new DrawCardRequest.Builder().setAmount(n).setPlayerID(playerID).build();
         client.sendTCP(request);
     }
 
@@ -151,6 +189,11 @@ public class RoomClient {
 
     public PublishSubject<Response> getResponseSubject() {
         return responseSubject;
+    }
+
+    public void getDroppedDeckTop() {
+        final GetDroppedDeckTopRequest request = new GetDroppedDeckTopRequest();
+        client.sendTCP(request);
     }
 
 }

@@ -10,6 +10,7 @@ public class ItemDTO {
     public boolean isLegal;
     public int timeCost;
     public int fine;
+    public String ImgURL;
 
     public static class Builder {
         private int price;
@@ -17,6 +18,8 @@ public class ItemDTO {
         private boolean isLegal;
         private int timeCost;
         private int fine;
+
+        private String imgURL;
 
         public Builder setPrice(int price) {
             this.price = price;
@@ -43,6 +46,11 @@ public class ItemDTO {
             return this;
         }
 
+        public Builder setImgURL(String imgURL) {
+            this.imgURL = imgURL;
+            return this;
+        }
+
         public ItemDTO build() {
             ItemDTO dto = new ItemDTO();
             dto.price = price;
@@ -50,6 +58,7 @@ public class ItemDTO {
             dto.isLegal = isLegal;
             dto.timeCost = timeCost;
             dto.fine = fine;
+            dto.ImgURL = imgURL;
             return dto;
         }
     }
@@ -57,8 +66,12 @@ public class ItemDTO {
     public static ArrayList<ItemEntity> toEntity(ArrayList<ItemDTO> dtos) {
         ArrayList<ItemEntity> res = new ArrayList<>();
         for (ItemDTO dto : dtos) {
-            res.add(new ItemEntity.Builder().setName(dto.name).setPrice(dto.price).setIsLegal(dto.isLegal).setTimeCost(dto.timeCost).setFine(dto.fine).build());
+            res.add(new ItemEntity.Builder().setName(dto.name).setPrice(dto.price).setIsLegal(dto.isLegal).setTimeCost(dto.timeCost).setImgURL(dto.ImgURL).setFine(dto.fine).build());
         }
         return res;
+    }
+
+    public static ItemEntity toEntity(ItemDTO dto) {
+        return new ItemEntity.Builder().setName(dto.name).setPrice(dto.price).setIsLegal(dto.isLegal).setTimeCost(dto.timeCost).setImgURL(dto.ImgURL).setFine(dto.fine).build();
     }
 }

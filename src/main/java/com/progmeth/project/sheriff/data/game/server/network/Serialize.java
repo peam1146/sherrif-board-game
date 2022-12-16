@@ -5,6 +5,7 @@ import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
 import com.progmeth.project.sheriff.data.game.server.models.request.*;
 import com.progmeth.project.sheriff.data.game.server.models.response.*;
 import com.progmeth.project.sheriff.data.game.server.models.type.Type;
+import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,16 @@ public class Serialize {
                 GetHandResponse.class,
                 JoinRoomRequest.class,
                 JoinRoomResponse.class,
+                GetIsGameStartedRequest.class,
+                GetIsGameStartedResponse.class,
+                GetCurrentSheriffRequest.class,
+                GetCurrentSheriffResponse.class,
+                DrawCardResponse.class,
+                DropCardRequest.class,
+                DrawCardRequest.class,
+                GetDroppedDeckTopResponse.class,
+                GetDroppedDeckTopRequest.class,
+//                ItemEntity.class,
                 Type.class
         );
         for (var c : classes) {

@@ -1,23 +1,23 @@
 package com.progmeth.project.sheriff.data.game.server.models.response;
 
-public class GetIsGameStartedResponse extends Response{
-    public static final String responseTopic = "isGameStarted";
-    public Boolean isGameStarted;
-    public GetIsGameStartedResponse() {
+public class GetCurrentSheriffResponse extends Response{
+    public static final String responseTopic = "currentSheriff";
+    public int currentSheriff;
+    public GetCurrentSheriffResponse() {
         super(responseTopic);
     }
 
     public static class Builder {
-        private Boolean isGameStarted;
+        private int currentSheriff;
 
-        public Builder isGameStarted(Boolean isGameStarted) {
-            this.isGameStarted = isGameStarted;
+        public Builder setCurrentSheriff(int currentSheriff) {
+            this.currentSheriff = currentSheriff;
             return this;
         }
 
-        public GetIsGameStartedResponse build() {
-            GetIsGameStartedResponse response = new GetIsGameStartedResponse();
-            response.isGameStarted = isGameStarted;
+        public GetCurrentSheriffResponse build() {
+            GetCurrentSheriffResponse response = new GetCurrentSheriffResponse();
+            response.currentSheriff = currentSheriff;
             return response;
         }
     }

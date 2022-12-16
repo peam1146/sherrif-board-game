@@ -1,23 +1,30 @@
 package com.progmeth.project.sheriff.data.game.server.models.response;
 
-public class GetIsGameStartedResponse extends Response{
-    public static final String responseTopic = "isGameStarted";
-    public Boolean isGameStarted;
-    public GetIsGameStartedResponse() {
+import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
+
+public class GetDroppedDeckTopResponse extends Response{
+    public static final String responseTopic = "droppedDeckTop";
+    public ItemDTO topDroppedDeckTop;
+    public ItemDTO bottomDroppedDeckTop;
+
+    public GetDroppedDeckTopResponse() {
         super(responseTopic);
     }
 
     public static class Builder {
-        private Boolean isGameStarted;
+        private ItemDTO topDroppedDeckTop;
+        private ItemDTO bottomDroppedDeckTop;
 
-        public Builder isGameStarted(Boolean isGameStarted) {
-            this.isGameStarted = isGameStarted;
+        public Builder setDroppedDeckTop(ItemDTO topDroppedDeckTop,ItemDTO bottomDroppedDeckTop) {
+            this.topDroppedDeckTop = topDroppedDeckTop;
+            this.bottomDroppedDeckTop = bottomDroppedDeckTop;
             return this;
         }
 
-        public GetIsGameStartedResponse build() {
-            GetIsGameStartedResponse response = new GetIsGameStartedResponse();
-            response.isGameStarted = isGameStarted;
+        public GetDroppedDeckTopResponse build() {
+            GetDroppedDeckTopResponse response = new GetDroppedDeckTopResponse();
+            response.topDroppedDeckTop = topDroppedDeckTop;
+            response.bottomDroppedDeckTop = bottomDroppedDeckTop;
             return response;
         }
     }

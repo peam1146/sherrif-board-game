@@ -5,6 +5,7 @@ import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
 import com.progmeth.project.sheriff.core.utils.view.controllers.StateController;
 import com.progmeth.project.sheriff.presentors.home.controllers.states.HomeState;
 import com.progmeth.project.sheriff.presentors.home.controllers.states.Init;
+import io.reactivex.rxjava3.core.Completable;
 
 public class HomeController extends StateController<HomeState> {
 
@@ -14,10 +15,17 @@ public class HomeController extends StateController<HomeState> {
         this.mainController = mainController;
     }
     public void joinRoom() {
+//        mainController.getRoomRepository().joinGame("test", "test").subscribe();
         mainController.getRouterController().navigateTo(RouteState.LOUGE);
     }
     public void createRoom() {
-        mainController.getRouterController().navigateTo(RouteState.LOUGE);
+        final Completable com = mainController.getRoomRepository().createRoom("localhost", 3000);
+        com.doOnComplete(() -> {
+            System.out.println("Room created");
+            mainController.getRouterController().navigateTo(RouteState.LOUGE);
+        }).doOnError((e) -> {
+            System.out.println("Room creation failed");
+        }).subscribe();
     }
 
     public MainController getMainController() {

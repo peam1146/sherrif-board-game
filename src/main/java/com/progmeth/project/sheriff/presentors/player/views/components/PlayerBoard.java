@@ -1,7 +1,11 @@
 package com.progmeth.project.sheriff.presentors.player.views.components;
 
+import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
 import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
+import com.progmeth.project.sheriff.presentors.player.controllers.PlayerController;
+import com.progmeth.project.sheriff.presentors.player.controllers.states.PlayerState;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -10,7 +14,7 @@ import javafx.scene.transform.Rotate;
 
 public class PlayerBoard extends BorderPane {
     private final static String IMG_PLAYER_BOARD = PlayerBoard.class.getResource("/com/progmeth/project/sheriff/images/player_board.png").toString();
-    public PlayerBoard(){
+    public PlayerBoard(PlayerController controller){
         super.setMinWidth(227);
         super.setMinHeight(310);
         ImageView playerBoardImage = new ImageView(IMG_PLAYER_BOARD);
@@ -49,20 +53,35 @@ public class PlayerBoard extends BorderPane {
 
         Money money = new Money();
         NameTag nameTag = new NameTag();
-        nameTag.setName("Meen");
+        nameTag.setName(controller.getPlayerName());
         nameTag.setTranslateX(420);
         nameTag.setTranslateY(10);
+
+        StreamBuilder<PlayerState, PlayerController> nameTagStreamBuilder = new StreamBuilder<>(controller){
+            @Override
+            public Node builder(PlayerState state) {
+                nameTag.setName(state.playerName);
+                return nameTag;
+            }
+        };
+
         HBox topContainerHBox = new HBox();
-        topContainerHBox.getChildren().addAll(money,nameTag);
+        topContainerHBox.getChildren().addAll(money,nameTagStreamBuilder);
         topContainer.getChildren().addAll(topContainerHBox,topCardSlot);
 
         Hand hand = new Hand();
-        hand.setItem(new ItemEntity[0]);
+        StreamBuilder<PlayerState, PlayerController> handStreamBuilder = new StreamBuilder<>(controller){
+            @Override
+            public Node builder(PlayerState state) {
+                    hand.setItem(state.hand);
+                    return hand;
+            }
+        };
 
         super.setLeft(leftCardSlot);
         super.setRight(rightCardSlot);
         super.setTop(topContainer);
-        super.setBottom(hand);
+        super.setBottom(handStreamBuilder);
 
     }
 }
