@@ -4,6 +4,7 @@
 module com.progmeth.project.sheriff {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
     requires kryonet;
     requires kryo;
 

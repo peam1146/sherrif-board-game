@@ -26,7 +26,10 @@ import com.progmeth.project.sheriff.presentors.waiting.views.WaitingRoomView;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class Main extends Application {
@@ -46,6 +49,20 @@ public class Main extends Application {
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(800);
         primaryStage.setResizable(false);
+    }
+
+    private void setMusic() {
+        try {
+            Media media = new Media(Main.class.getResource("/com/progmeth/project/sheriff/musics/bg.mp3").toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setOnEndOfMedia(() -> {
+                mediaPlayer.seek(Duration.ZERO);
+                mediaPlayer.play();
+            });
+            mediaPlayer.setAutoPlay(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -83,6 +100,7 @@ public class Main extends Application {
         final Scene scene = new Scene(root, 597, 600);
         primaryStage.setScene(scene);
         setUpStage(primaryStage);
+        setMusic();
         primaryStage.show();
     }
 
