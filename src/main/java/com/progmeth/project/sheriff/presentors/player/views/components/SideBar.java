@@ -1,5 +1,6 @@
 package com.progmeth.project.sheriff.presentors.player.views.components;
         import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
+        import com.progmeth.project.sheriff.data.game.server.controller.DroppedDeckPos;
         import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
         import com.progmeth.project.sheriff.presentors.common.GameFont;
         import com.progmeth.project.sheriff.presentors.common.ItemImg;
@@ -15,6 +16,7 @@ package com.progmeth.project.sheriff.presentors.player.views.components;
         import javafx.scene.text.Text;
 
 public class SideBar extends VBox {
+    private int drawCount = 0;
     public SideBar(PlayerController controller) {
         super.setStyle("-fx-background-color: #603A33;");
         super.setMinWidth(150);
@@ -57,6 +59,32 @@ public class SideBar extends VBox {
             }
         };
 
+        topDrop.setOnMouseClicked(e -> {
+            controller.drawFrom(DroppedDeckPos.BOTTOM);
+            drawCount++;
+        });
+
+        Text chooseCard = new Text("Select card to verify");
+        chooseCard.setFont(new GameFont(14).getBlack());
+        chooseCard.setFill(Color.rgb(255,255,255));
+
+        HBox announcement = new HBox();
+        announcement.getChildren().add(chooseCard);
+        announcement.setAlignment(Pos.CENTER);
+        announcement.setMinHeight(35);
+        announcement.setPadding(new Insets(5, 5, 5, 5));
+        announcement.setStyle("-fx-background-color: #DACAA6;");
+
+        bottomDrop.setOnMouseClicked(e -> {
+            controller.drawFrom(DroppedDeckPos.TOP);
+            drawCount++;
+            if(drawCount > 2){
+                getChildren().add(chooseCard);
+                controller.showSelectBox();
+            }
+        });
+
         getChildren().addAll(goodsDeckBadge,topDropStreamBuilder,card,bottomDropStreamBuilder);
     }
+
 }

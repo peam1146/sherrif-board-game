@@ -17,15 +17,40 @@ import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Room server
+ */
 public class RoomServer {
+
+    /**
+     * room name
+     */
     private String roomName;
+    /**
+     * is server running
+     */
     private boolean isRunning = false;
+    /**
+     * network server
+     */
     private final Server server;
+    /**
+     * instance of this class
+     */
     private static RoomServer serverInstance;
+    /**
+     * game builder
+     */
     private GameRoomController.GameControllerBuilder gameControllerBuilder;
 
+    /**
+     * game controller
+     */
     private GameRoomController gameRoomController;
 
+    /**
+     * Listener for server
+     */
     private class ServerListener extends Listener {
 
         @Override
@@ -90,7 +115,7 @@ public class RoomServer {
                 }
 
                 final ArrayList<ItemDTO> handDTO = gameRoomController.getHand(req.playerID).getItemsDTO();
-                connection.sendTCP(new DropCardResponse.Builder().setHand(handDTO));
+                connection.sendTCP(new DropCardResponse.Builder().setHand(handDTO).build());
             }
 
             if(object instanceof GetIsGameStartedRequest){
@@ -119,25 +144,36 @@ public class RoomServer {
                     fine = legal.getTimeCost();
                 if (topDeck instanceof final Illegal illegal)
                     fine = illegal.getFine();
-                ItemDTO topDeckEntity =  new ItemDTO.Builder().setName(topDeck.getName()).setFine(fine).setTimeCost(timeCost).build();
+                ItemDTO topDeckEntity =  new ItemDTO.Builder().setName(topDeck.getName()).setFine(fine).setTimeCost(timeCost).setIsLegal(topDeck instanceof Legal).build();
                 final Item bottomDeck = gameRoomController.getDroppedDeck(DroppedDeckPos.BOTTOM).top();
                 if (bottomDeck instanceof final Legal legal)
                     fine = legal.getTimeCost();
                 if (bottomDeck instanceof final Illegal illegal)
                     fine = illegal.getFine();
-                ItemDTO bottomDeckEntity = new ItemDTO.Builder().setName(bottomDeck.getName()).setFine(fine).setTimeCost(timeCost).build();
-//                System.out.println("Sending response"+topDeckEntity.name+bottomDeckEntity.name);
+                ItemDTO bottomDeckEntity = new ItemDTO.Builder().setName(bottomDeck.getName()).setFine(fine).setTimeCost(timeCost).setIsLegal(bottomDeck instanceof Legal).build();
                 connection.sendTCP(new GetDroppedDeckTopResponse.Builder().setDroppedDeckTop(topDeckEntity,bottomDeckEntity).build());
             }
 
-
+            if(object instanceof final DrawFromDroppedRequest req){
+                System.out.println("Received draw from dropped request");
+                gameRoomController.playerDrawFromDropped(req.playerID,req.pos);
+                connection.sendTCP(new DrawFromDroppedResponse());
+            }
         }
     }
 
+    /**
+     * Constructor
+     */
     private RoomServer() {
         server = new Server();
     }
 
+    /**
+     * get instance of this class
+     *
+     * @return instance
+     */
     public static RoomServer getInstance() {
         if (serverInstance == null) {
             serverInstance = new RoomServer();
@@ -145,11 +181,17 @@ public class RoomServer {
         return serverInstance;
     }
 
+    /**
+     * register classes
+     */
     private void register() {
         final Kryo kryo = server.getKryo();
         Serialize.register(kryo);
     }
 
+    /**
+     * start server
+     */
     public void start() {
         gameControllerBuilder = new GameRoomController.GameControllerBuilder();
         server.start();
@@ -158,28 +200,57 @@ public class RoomServer {
     }
 
 
+    /**
+     * bind server to port
+     *
+     * @param tcpPort port
+     * @throws IOException if port is already in use
+     */
     public void bind(int tcpPort) throws IOException {
         server.bind(tcpPort);
     }
 
+    /**
+     * stop server
+     */
     public void close() {
         setRunning(false);
         server.close();
         server.stop();
     }
 
+    /**
+     * get room name
+     *
+     * @return room name
+     */
     public String getRoomName() {
         return roomName;
     }
 
+    /**
+     * is server running
+     *
+     * @return is server running
+     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * set room name
+     *
+     * @param roomName room name
+     */
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
 
+    /**
+     * set is server running
+     *
+     * @param running is server running
+     */
     public void setRunning(boolean running) {
         isRunning = running;
     }

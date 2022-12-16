@@ -1,14 +1,19 @@
 package com.progmeth.project.sheriff.presentors.common.components;
 
+import com.almasb.fxgl.event.Subscriber;
 import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 import com.progmeth.project.sheriff.presentors.common.GameFont;
 import com.progmeth.project.sheriff.presentors.common.ItemImg;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.util.concurrent.Flow;
 
 public class Card extends StackPane {
     protected ItemEntity item;
@@ -22,6 +27,8 @@ public class Card extends StackPane {
     private Text fine;
     private Text timeCost;
     private Text price;
+
+    private Boolean isSelectForDrop = false;
 
     public Card(ItemEntity itemEntity) {
         setItem(itemEntity);
@@ -71,6 +78,7 @@ public class Card extends StackPane {
         img.setFitWidth(32);
         img.setTranslateY(-10);
         getChildren().add(img);
+
     }
 //
     private String getURL(String name){
@@ -117,5 +125,9 @@ public class Card extends StackPane {
             fine.setTranslateY(-5);
             fine.setFont(font);
         }
+    }
+
+    public void setDrop(EventHandler<MouseEvent> e) {
+        setOnMouseClicked(e);
     }
 }

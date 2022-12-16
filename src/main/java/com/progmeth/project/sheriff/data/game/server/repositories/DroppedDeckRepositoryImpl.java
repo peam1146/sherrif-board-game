@@ -3,11 +3,13 @@ package com.progmeth.project.sheriff.data.game.server.repositories;
 import com.progmeth.project.sheriff.data.game.models.base.Item;
 import com.progmeth.project.sheriff.data.game.server.controller.DroppedDeckPos;
 import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
+import com.progmeth.project.sheriff.data.game.server.models.response.DrawFromDroppedResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.GetDroppedDeckTopResponse;
 import com.progmeth.project.sheriff.data.game.server.models.response.GetHandResponse;
 import com.progmeth.project.sheriff.data.game.server.network.RoomClient;
 import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 import com.progmeth.project.sheriff.domain.game.repositories.DroppedDeckRepository;
+import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.Single;
 
 public class DroppedDeckRepositoryImpl implements DroppedDeckRepository {
@@ -26,8 +28,16 @@ public class DroppedDeckRepositoryImpl implements DroppedDeckRepository {
         });
     }
     @Override
-    public Single<Item> draw(DroppedDeckPos pos) {
-        return null;
+    public Single<Boolean> draw(DroppedDeckPos pos) {
+        return Single.create(emitter -> {
+            RoomClient.getInstance().getResponseSubject().subscribe(response -> {
+                if (response instanceof final DrawFromDroppedResponse res) {
+                    emitter.onSuccess(true);
+                }
+            });
+            RoomClient.getInstance().drawFromDropped(pos);
+        });
+
     }
 
 }

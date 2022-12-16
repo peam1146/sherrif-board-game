@@ -10,8 +10,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Demo view
+ */
 public class DemoView extends StackPane {
+    /**
+     * controller
+     */
     private final DemoController controller;
+
+    /**
+     * Constructor
+     * @param controller controller
+     */
     public DemoView(DemoController controller) {
         super.setAlignment(Pos.CENTER);
         this.controller = controller;

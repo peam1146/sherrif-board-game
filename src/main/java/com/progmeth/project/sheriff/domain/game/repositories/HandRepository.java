@@ -14,4 +14,6 @@ public interface HandRepository {
     public Single<ArrayList<ItemEntity>> drop(ItemEntity item);
 
     public Completable dropAll();
+
+    public Single<Boolean> getIsDropable();
 }

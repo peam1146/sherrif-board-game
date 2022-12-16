@@ -69,14 +69,19 @@ public class PlayerBoard extends BorderPane {
         topContainerHBox.getChildren().addAll(money,nameTagStreamBuilder);
         topContainer.getChildren().addAll(topContainerHBox,topCardSlot);
 
-        Hand hand = new Hand();
+        Hand hand = new Hand(controller);
         StreamBuilder<PlayerState, PlayerController> handStreamBuilder = new StreamBuilder<>(controller){
             @Override
             public Node builder(PlayerState state) {
+                if(state.isLockedHand){
+                    return hand;
+                }
                     hand.setItem(state.hand);
                     return hand;
             }
         };
+
+
 
         super.setLeft(leftCardSlot);
         super.setRight(rightCardSlot);

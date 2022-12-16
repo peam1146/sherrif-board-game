@@ -31,7 +31,6 @@ public class GameRoomController {
         }
         this.deck = new MainCardDeck();
 //        this.droppedDecks = new DroppedDeck[2];
-
         this.droppedDecks[DroppedDeckPos.TOP.ordinal()]= new DroppedDeck();
         this.droppedDecks[DroppedDeckPos.BOTTOM.ordinal()] = new DroppedDeck();
 
@@ -80,9 +79,9 @@ public class GameRoomController {
         for (var i : hands.get(player).getItems()) {
             if (i.getName().equals(cardName)) {
                 card = i;
-                hands.get(player).remove(i);
             }
         }
+        hands.get(player).remove(card);
         if (card == null) return null;
         final int pos = new Random().nextInt(2);
         droppedDecks[pos].add(card);

@@ -43,7 +43,7 @@ public class WaitingRoomController extends StateController<Integer> {
                 if (isGameStart1){
                     mainController.getRoomRepository().getCurrentSheriff().subscribe((sheriff) -> {
                         //Go to player for debug
-                        mainController.getRouterController().navigateTo(RouteState.GAME_PLAYER);
+                        mainController.getRouterController().navigateTo(RouteState.GAME_SHERIFF);
                         PlayerController.getInstance().drawFullHand();
                         PlayerController.getInstance().getDroppedDeckPolling();
 

@@ -15,10 +15,15 @@ public class PlayerState {
     public ItemEntity topDroppedDeck;
     public ItemEntity bottomDroppedDeck;
 
-    public PlayerState(ArrayList<ItemEntity> hand,String playerName,ItemEntity topDroppedDeck,ItemEntity bottomDroppedDeck) {
+    public Boolean showSelectBox;
+    public Boolean isLockedHand;
+
+    public PlayerState(ArrayList<ItemEntity> hand,String playerName,ItemEntity topDroppedDeck,ItemEntity bottomDroppedDeck, Boolean showSelectBox, Boolean isLockedHand) {
         this.playerName = playerName;
         this.hand = hand;
         this.topDroppedDeck = topDroppedDeck;
         this.bottomDroppedDeck = bottomDroppedDeck;
+        this.showSelectBox = showSelectBox;
+        this.isLockedHand = isLockedHand;
     }
 }

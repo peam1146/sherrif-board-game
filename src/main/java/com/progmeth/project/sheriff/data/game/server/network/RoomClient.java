@@ -4,6 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.progmeth.project.sheriff.data.game.server.controller.DroppedDeckPos;
 import com.progmeth.project.sheriff.data.game.server.models.request.*;
 import com.progmeth.project.sheriff.data.game.server.models.response.*;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -77,6 +78,11 @@ public class RoomClient {
                 System.out.println("Client Received GetDroppedDeckTopResponse");
                 clientInstance.responseSubject.onNext((Response) object);
             }
+
+            if (object instanceof DrawFromDroppedResponse) {
+                System.out.println("Client Received DrawFromDroppedResponse");
+                clientInstance.responseSubject.onNext((Response) object);
+            }
         }
 
         @Override
@@ -132,7 +138,7 @@ public class RoomClient {
     }
 
     public void joinRoom(String roomName) {
-        final JoinRoomRequest request = new JoinRoomRequest.Builder().setRoom(roomName).build();
+        final JoinRoomRequest request = new JoinRoomRequest.Builder().setPlayerName(roomName).build();
         client.sendTCP(request);
     }
 
@@ -193,6 +199,11 @@ public class RoomClient {
 
     public void getDroppedDeckTop() {
         final GetDroppedDeckTopRequest request = new GetDroppedDeckTopRequest();
+        client.sendTCP(request);
+    }
+
+    public void drawFromDropped(DroppedDeckPos pos){
+        final DrawFromDroppedRequest request = new DrawFromDroppedRequest.Builder().setPlayerID(playerID).setDrawPos(pos).build();
         client.sendTCP(request);
     }
 

@@ -37,6 +37,14 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.media']
 }
 
+javadoc {
+    options {
+        encoding = 'UTF-8'
+        links 'https://docs.oracle.com/en/java/javase/18/docs/api'
+        links 'https://openjfx.io/javadoc/18'
+    }
+}
+
 dependencies {
     implementation 'org.ow2.asm:asm:9.4'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
@@ -68,3 +76,12 @@ jlink {
 jlinkZip {
     group = 'distribution'
 }
+
+task installLocalGitHook(type: Copy) {
+    from new File(rootProject.rootDir, 'scripts/pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+    fileMode 0775
+}
+
+
+build.dependsOn installLocalGitHook

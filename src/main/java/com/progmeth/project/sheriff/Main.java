@@ -54,7 +54,7 @@ public class Main extends Application {
         final HomeView homeView = new HomeView(homeController);
         final LougeView lougeView = new LougeView(lougeController);
         final PlayerView playerView = new PlayerView(playerController);
-        final SheriffView sheriffView = new SheriffView(sheriffController);
+        final SheriffView sheriffView = new SheriffView(sheriffController,playerController);
         final WaitingRoomView waitingRoomView = new WaitingRoomView(waitingRoomController);
 
         //not use

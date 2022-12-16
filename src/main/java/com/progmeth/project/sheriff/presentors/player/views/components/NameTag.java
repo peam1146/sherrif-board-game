@@ -7,8 +7,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/**
+ * Name tag
+ */
 public class NameTag extends StackPane {
+    /**
+     * name
+     */
     private final Text name;
+
+    /**
+     * Constructor
+     */
     public NameTag() {
         name = new Text("");
         name.setFont(new GameFont(12).getBlack());
@@ -24,6 +34,10 @@ public class NameTag extends StackPane {
 
     }
 
+    /**
+     * Set name
+     * @param name name
+     */
     public void setName(String name) {
         this.name.setText(name);
     }

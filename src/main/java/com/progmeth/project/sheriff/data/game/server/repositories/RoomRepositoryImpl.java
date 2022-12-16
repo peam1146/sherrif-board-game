@@ -13,7 +13,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+/**
+ * Room repository implementation
+ */
 public class RoomRepositoryImpl implements RoomRepository {
+    /**
+     * Constructor
+     */
+    public RoomRepositoryImpl() {
+    }
+
     @Override
     public Completable startGame() {
         System.out.println("RoomRepositoryImpl.startGame");

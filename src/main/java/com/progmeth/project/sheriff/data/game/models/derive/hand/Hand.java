@@ -7,26 +7,57 @@ import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
 
 import java.util.ArrayList;
 
+/**
+ * Hand
+ */
 public class Hand {
+    /**
+     * list of card
+     */
     private final ArrayList<Item> items = new ArrayList<>();
+    /**
+     * amount of card
+     */
     private int amount = 0;
 
+    /**
+     * Constructor
+     */
+    public Hand() {
+    }
+
+    /**
+     * add card to hand
+     * @param i card
+     */
     public void add(Item i) {
         if (amount > 6) return;
         items.add(i);
         amount++;
     }
 
+    /**
+     * remove card from hand
+     * @param i card
+     */
     public void remove(Item i) {
         if (amount < 1) return;
         items.remove(i);
         amount--;
     }
 
+    /**
+     * get cards
+     * @return cards
+     */
     public ArrayList<Item> getItems() {
         return items;
     }
 
+    /**
+     * convert to DTO
+     * @return DTO
+     */
     public ArrayList<ItemDTO> getItemsDTO() {
         ArrayList<ItemDTO> res = new ArrayList<>();
         for (Item item : items) {
