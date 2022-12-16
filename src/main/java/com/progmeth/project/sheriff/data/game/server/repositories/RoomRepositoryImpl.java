@@ -1,12 +1,9 @@
 package com.progmeth.project.sheriff.data.game.server.repositories;
 
-import com.progmeth.project.sheriff.data.game.server.models.response.GetPlayersResponse;
-import com.progmeth.project.sheriff.data.game.server.models.response.JoinRoomResponse;
+import com.progmeth.project.sheriff.data.game.server.models.response.*;
 import com.progmeth.project.sheriff.data.game.server.network.RoomClient;
 import com.progmeth.project.sheriff.data.game.server.network.RoomServer;
 import com.progmeth.project.sheriff.data.game.server.models.request.JoinRoomRequest;
-import com.progmeth.project.sheriff.data.game.server.models.response.Response;
-import com.progmeth.project.sheriff.data.game.server.models.response.StartGameResponse;
 import com.progmeth.project.sheriff.domain.game.repositories.RoomRepository;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
@@ -28,19 +25,24 @@ public class RoomRepositoryImpl implements RoomRepository {
 
     @Override
     public Completable startGame() {
+        System.out.println("RoomRepositoryImpl.startGame");
+        RoomClient.getInstance().startGame();
         return Completable.create(emitter -> {
             final var dispose = RoomClient.getInstance().getResponseSubject().subscribe(response -> {
                 if (response instanceof StartGameResponse) {
                     emitter.onComplete();
                 }
             });
-            RoomClient.getInstance().startGame();
+//            RoomClient.getInstance().startGame();
             emitter.setDisposable(dispose);
         });
     }
 
+
+
     @Override
     public Single<ArrayList<String>> getPlayers() {
+        System.out.println("RoomRepositoryImpl.getPlayers");
         return Single.create(emitter -> {
             final var dispose = RoomClient.getInstance().getResponseSubject().subscribe(response -> {
                 if (response instanceof final GetPlayersResponse getPlayersResponse) {
@@ -55,7 +57,7 @@ public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public Single<ArrayList<String>> joinGame(String host, String name) {
         if (!RoomClient.getInstance().getRunning())
-            RoomClient.getInstance().setup();
+            RoomClient.getInstance().setup(host);
         return Single.create(emitter -> {
             final PublishSubject<Response> responseSubject = RoomClient.getInstance().getResponseSubject();
             final var disposable = responseSubject.subscribe(response -> {
@@ -72,6 +74,7 @@ public class RoomRepositoryImpl implements RoomRepository {
 
     @Override
     public Completable createRoom(String room, int tcpPort) {
+        System.out.println("RoomRepositoryImpl.createRoom");
         return Completable.create(emitter -> {
             if (RoomServer.getInstance().isRunning()) {
                 emitter.onError(new IOException("Room already created"));
@@ -92,6 +95,37 @@ public class RoomRepositoryImpl implements RoomRepository {
                 }
             };
             t.start();
+        });
+    }
+
+    @Override
+    public Single<Boolean> isGameStart() {
+        return Single.create(emitter -> {
+            final PublishSubject<Response> responseSubject = RoomClient.getInstance().getResponseSubject();
+            final var disposable = responseSubject.subscribe(response -> {
+                if (response.getTopic().equals(GetIsGameStartedResponse.responseTopic)) {
+                    final GetIsGameStartedResponse getIsGameStartedResponse = (GetIsGameStartedResponse) response;
+//                    System.out.println("isGameStart: " + getIsGameStartedResponse.isGameStarted);
+                    emitter.onSuccess(getIsGameStartedResponse.isGameStarted);
+                }
+            });
+            RoomClient.getInstance().isGameStarted();
+            emitter.setDisposable(disposable);
+        });
+    }
+
+    @Override
+    public Single<Integer> getCurrentSheriff(){
+        return Single.create(emitter -> {
+            final PublishSubject<Response> responseSubject = RoomClient.getInstance().getResponseSubject();
+            final var disposable = responseSubject.subscribe(response -> {
+                if (response.getTopic().equals(GetCurrentSheriffResponse.responseTopic)) {
+                    final GetCurrentSheriffResponse getCurrentSheriffResponse = (GetCurrentSheriffResponse) response;
+                    emitter.onSuccess(getCurrentSheriffResponse.currentSheriff);
+                }
+            });
+            RoomClient.getInstance().getCurrentSheriff();
+            emitter.setDisposable(disposable);
         });
     }
 }

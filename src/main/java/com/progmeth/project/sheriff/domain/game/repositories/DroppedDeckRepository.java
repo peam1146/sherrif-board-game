@@ -1,24 +1,16 @@
 package com.progmeth.project.sheriff.domain.game.repositories;
 
 import com.progmeth.project.sheriff.data.game.models.base.Item;
+import com.progmeth.project.sheriff.data.game.models.derive.deck.DroppedDeck;
+import com.progmeth.project.sheriff.data.game.server.controller.DroppedDeckPos;
+import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
+import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
+import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.Single;
 
 
-/**
- * Dropped deck repository
- */
 public interface DroppedDeckRepository {
-    /**
-     * Get card from the top of the deck
-     *
-     * @return card
-     */
-    public Single<Item> getTop();
+    public Single<ItemDTO[]> getTop();
 
-    /**
-     * Draw a card from the top of the deck
-     *
-     * @return card
-     */
-    public Single<Item> draw();
+    public Single<Boolean> draw(DroppedDeckPos pos);
 }

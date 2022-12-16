@@ -4,10 +4,15 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.progmeth.project.sheriff.data.game.models.base.Illegal;
+import com.progmeth.project.sheriff.data.game.models.base.Item;
+import com.progmeth.project.sheriff.data.game.models.base.Legal;
+import com.progmeth.project.sheriff.data.game.server.controller.DroppedDeckPos;
 import com.progmeth.project.sheriff.data.game.server.controller.GameRoomController;
 import com.progmeth.project.sheriff.data.game.server.models.DTO.ItemDTO;
 import com.progmeth.project.sheriff.data.game.server.models.request.*;
 import com.progmeth.project.sheriff.data.game.server.models.response.*;
+import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +65,7 @@ public class RoomServer {
 
         @Override
         public void received(Connection connection, Object object) {
+            System.out.println("Received " + object.getClass().getName());
             if (!(object instanceof Request)) return;
             if (object instanceof StartGameRequest) {
                 System.out.println("Received start game request");
@@ -72,7 +78,7 @@ public class RoomServer {
                 System.out.println("Received join room request");
                 System.out.println("Player ID: " + req.playerName);
                 gameControllerBuilder.addPlayer(req.playerName);
-                connection.sendTCP(new JoinRoomResponse.Builder().setPlayerName(req.playerName).setPlayerNames(gameControllerBuilder.getPlayerNames()).setPlayerID(1).build());
+                connection.sendTCP(new JoinRoomResponse.Builder().setPlayerName(req.playerName).setPlayerNames(gameControllerBuilder.getPlayerNames()).setPlayerID(gameControllerBuilder.getPlayerNames().size()-1).build());
                 return;
             }
 
@@ -109,10 +115,50 @@ public class RoomServer {
                 }
 
                 final ArrayList<ItemDTO> handDTO = gameRoomController.getHand(req.playerID).getItemsDTO();
-                connection.sendTCP(new DropCardResponse.Builder().setHand(handDTO));
+                connection.sendTCP(new DropCardResponse.Builder().setHand(handDTO).build());
             }
 
+            if(object instanceof GetIsGameStartedRequest){
+                System.out.println("Received getIsGameStarted request");
+                connection.sendTCP(new GetIsGameStartedResponse.Builder().isGameStarted(gameRoomController != null).build());
+            }
 
+            if(object instanceof GetCurrentSheriffRequest){
+                System.out.println("Received GetCurrentSheriff Request");
+                connection.sendTCP(new GetCurrentSheriffResponse.Builder().setCurrentSheriff(gameRoomController.getCurrentSheriff()).build());
+            }
+
+            if (object instanceof final DrawCardRequest req) {
+                System.out.println("Received draw card request");
+                gameRoomController.playerDraw(req.playerID,req.amount);
+                final ArrayList<ItemDTO> hand = gameRoomController.getHand(req.playerID).getItemsDTO();
+                connection.sendTCP(new DrawCardResponse.Builder().setHand(hand).build());
+            }
+
+            if( object instanceof GetDroppedDeckTopRequest ){
+                System.out.println("Received get dropped deck top request");
+                int fine = 0;
+                int timeCost = 0;
+                final Item topDeck = gameRoomController.getDroppedDeck(DroppedDeckPos.TOP).top();
+                if (topDeck instanceof final Legal legal)
+                    fine = legal.getTimeCost();
+                if (topDeck instanceof final Illegal illegal)
+                    fine = illegal.getFine();
+                ItemDTO topDeckEntity =  new ItemDTO.Builder().setName(topDeck.getName()).setFine(fine).setTimeCost(timeCost).setIsLegal(topDeck instanceof Legal).build();
+                final Item bottomDeck = gameRoomController.getDroppedDeck(DroppedDeckPos.BOTTOM).top();
+                if (bottomDeck instanceof final Legal legal)
+                    fine = legal.getTimeCost();
+                if (bottomDeck instanceof final Illegal illegal)
+                    fine = illegal.getFine();
+                ItemDTO bottomDeckEntity = new ItemDTO.Builder().setName(bottomDeck.getName()).setFine(fine).setTimeCost(timeCost).setIsLegal(bottomDeck instanceof Legal).build();
+                connection.sendTCP(new GetDroppedDeckTopResponse.Builder().setDroppedDeckTop(topDeckEntity,bottomDeckEntity).build());
+            }
+
+            if(object instanceof final DrawFromDroppedRequest req){
+                System.out.println("Received draw from dropped request");
+                gameRoomController.playerDrawFromDropped(req.playerID,req.pos);
+                connection.sendTCP(new DrawFromDroppedResponse());
+            }
         }
     }
 

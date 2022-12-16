@@ -6,6 +6,8 @@ import com.progmeth.project.sheriff.core.controllers.router.states.RouteState;
 import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
 import com.progmeth.project.sheriff.data.game.server.network.RoomClient;
 import com.progmeth.project.sheriff.data.game.server.network.RoomServer;
+import com.progmeth.project.sheriff.data.game.server.repositories.DroppedDeckRepositoryImpl;
+import com.progmeth.project.sheriff.data.game.server.repositories.HandRepositoryImpl;
 import com.progmeth.project.sheriff.data.game.server.repositories.RoomRepositoryImpl;
 import com.progmeth.project.sheriff.presentors.demo.controllers.DemoController;
 import com.progmeth.project.sheriff.presentors.demo.views.DemoView;
@@ -19,59 +21,24 @@ import com.progmeth.project.sheriff.presentors.player.controllers.PlayerControll
 import com.progmeth.project.sheriff.presentors.player.views.PlayerView;
 import com.progmeth.project.sheriff.presentors.sheriff.controllers.SheriffController;
 import com.progmeth.project.sheriff.presentors.sheriff.views.SheriffView;
+import com.progmeth.project.sheriff.presentors.waiting.controllers.WaitingRoomController;
+import com.progmeth.project.sheriff.presentors.waiting.views.WaitingRoomView;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-/**
- * Main class
- */
 public class Main extends Application {
-    /**
-     * router controller
-     */
     private final RouterController routerController = new RouterController();
-    /**
-     * main controller
-     */
-    private final MainController mainController = new MainController(routerController);
-    /**
-     * home controller
-     */
+    private final MainController mainController = new MainController(routerController, new RoomRepositoryImpl(), new HandRepositoryImpl(), new DroppedDeckRepositoryImpl());
     private final HomeController homeController = new HomeController(mainController);
-    /**
-     * louge controller
-     */
     private final LougeController lougeController = new LougeController(mainController);
-    /**
-     * player controller
-     */
     private final PlayerController playerController = new PlayerController(mainController);
-    /**
-     * sheriff controller
-     */
     private final SheriffController sheriffController = new SheriffController(mainController);
-    /**
-     * game controller
-     */
     private final GameController gameController = new GameController();
-    /**
-     * demo controller
-     */
     private final DemoController demoController = new DemoController(new RoomRepositoryImpl());
-
-    /**
-     * Constructor
-     */
-    public Main() {
-    }
-
-    /**
-     * set up
-     * @param primaryStage primary stage
-     */
+    private final WaitingRoomController waitingRoomController = new WaitingRoomController(mainController);
     private void setUpStage(Stage primaryStage) {
         primaryStage.setTitle("Sheriff");
         primaryStage.setMaxHeight(600);
@@ -85,23 +52,31 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 
         final HomeView homeView = new HomeView(homeController);
-        final GameView gameView = new GameView(gameController);
         final LougeView lougeView = new LougeView(lougeController);
         final PlayerView playerView = new PlayerView(playerController);
+        final SheriffView sheriffView = new SheriffView(sheriffController,playerController);
+        final WaitingRoomView waitingRoomView = new WaitingRoomView(waitingRoomController);
+
+        //not use
+        final GameView gameView = new GameView(gameController);
 
         //demo
         final DemoView demoView = new DemoView(demoController);
 
-        final SheriffView sheriffView = new SheriffView(sheriffController);
-
         final StreamBuilder<RouteState, RouterController> root = new StreamBuilder<>(routerController) {
             @Override
             protected Node builder(RouteState state) {
+
+                if(state == RouteState.WAITING_ROOM){
+                    waitingRoomView.getPlayers();
+                }
+
                 return switch (state) {
-                    case HOME -> demoView;
+                    case HOME -> homeView;
                     case LOUGE -> lougeView;
                     case GAME_PLAYER -> playerView;
                     case GAME_SHERIFF -> sheriffView;
+                    case WAITING_ROOM -> waitingRoomView;
                 };
             }
         };

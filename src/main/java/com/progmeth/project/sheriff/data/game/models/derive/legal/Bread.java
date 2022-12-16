@@ -3,6 +3,7 @@ package com.progmeth.project.sheriff.data.game.models.derive.legal;
 
 import com.progmeth.project.sheriff.data.game.models.base.Item;
 import com.progmeth.project.sheriff.data.game.models.base.Legal;
+import com.progmeth.project.sheriff.presentors.common.ItemImg;
 
 /**
  * Bread item
@@ -17,12 +18,13 @@ public class Bread extends Item implements Legal {
      * time cost
      */
     final static int TIME_COST = 2;
+    public final static String ImgURL = ItemImg.BREAD;
 
     /**
      * Constructor
      */
     private Bread() {
-        super(3, "Bread");
+        super(3, "Bread",ImgURL);
     }
 
     /**

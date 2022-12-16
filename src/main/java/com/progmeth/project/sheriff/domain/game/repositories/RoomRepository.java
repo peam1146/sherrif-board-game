@@ -40,4 +40,8 @@ public interface RoomRepository {
      * @return Completable
      */
     public Completable createRoom(String room, int tcpPort);
+
+    public Single<Boolean> isGameStart();
+
+    public Single<Integer> getCurrentSheriff();
 }

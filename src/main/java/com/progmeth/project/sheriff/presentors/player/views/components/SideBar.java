@@ -1,23 +1,23 @@
 package com.progmeth.project.sheriff.presentors.player.views.components;
+        import com.progmeth.project.sheriff.core.utils.view.controllers.StreamBuilder;
+        import com.progmeth.project.sheriff.data.game.server.controller.DroppedDeckPos;
         import com.progmeth.project.sheriff.domain.game.entity.ItemEntity;
         import com.progmeth.project.sheriff.presentors.common.GameFont;
         import com.progmeth.project.sheriff.presentors.common.ItemImg;
         import com.progmeth.project.sheriff.presentors.common.components.BackCard;
         import com.progmeth.project.sheriff.presentors.common.components.Card;
+        import com.progmeth.project.sheriff.presentors.player.controllers.PlayerController;
+        import com.progmeth.project.sheriff.presentors.player.controllers.states.PlayerState;
         import javafx.geometry.Insets;
         import javafx.geometry.Pos;
+        import javafx.scene.Node;
         import javafx.scene.layout.*;
         import javafx.scene.paint.Color;
         import javafx.scene.text.Text;
 
-/**
- * Side bar
- */
 public class SideBar extends VBox {
-    /**
-     * Constructor
-     */
-    public SideBar() {
+    private int drawCount = 0;
+    public SideBar(PlayerController controller) {
         super.setStyle("-fx-background-color: #603A33;");
         super.setMinWidth(150);
         super.setHeight(536);
@@ -40,8 +40,51 @@ public class SideBar extends VBox {
         ItemEntity item2 = new ItemEntity(8, "test", true, 4,10, ItemImg.CHICKEN);
 
         Card card = new BackCard(item);
-        Card card1 = new Card(item);
-        Card card2 = new Card(item2);
-        getChildren().addAll(goodsDeckBadge,card1,card,card2);
+        Card topDrop = new Card(item);
+        Card bottomDrop = new Card(item2);
+
+        StreamBuilder<PlayerState, PlayerController> topDropStreamBuilder = new StreamBuilder<>(controller){
+            @Override
+            public Node builder(PlayerState state) {
+                topDrop.setItem(state.topDroppedDeck);
+                return topDrop;
+            }
+        };
+
+        StreamBuilder<PlayerState, PlayerController> bottomDropStreamBuilder = new StreamBuilder<>(controller){
+            @Override
+            public Node builder(PlayerState state) {
+                bottomDrop.setItem(state.bottomDroppedDeck);
+                return bottomDrop;
+            }
+        };
+
+        topDrop.setOnMouseClicked(e -> {
+            controller.drawFrom(DroppedDeckPos.BOTTOM);
+            drawCount++;
+        });
+
+        Text chooseCard = new Text("Select card to verify");
+        chooseCard.setFont(new GameFont(14).getBlack());
+        chooseCard.setFill(Color.rgb(255,255,255));
+
+        HBox announcement = new HBox();
+        announcement.getChildren().add(chooseCard);
+        announcement.setAlignment(Pos.CENTER);
+        announcement.setMinHeight(35);
+        announcement.setPadding(new Insets(5, 5, 5, 5));
+        announcement.setStyle("-fx-background-color: #DACAA6;");
+
+        bottomDrop.setOnMouseClicked(e -> {
+            controller.drawFrom(DroppedDeckPos.TOP);
+            drawCount++;
+            if(drawCount > 2){
+                getChildren().add(chooseCard);
+                controller.showSelectBox();
+            }
+        });
+
+        getChildren().addAll(goodsDeckBadge,topDropStreamBuilder,card,bottomDropStreamBuilder);
     }
+
 }

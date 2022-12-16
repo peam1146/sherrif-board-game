@@ -20,4 +20,5 @@ public enum RouteState {
      * game player
      */
     GAME_PLAYER,
+    WAITING_ROOM,
 }
